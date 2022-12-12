@@ -42,18 +42,26 @@ display:flex
 const box3_animation = keyframes`
 from {
   transform:rotate(0deg);
+  border-radius : 0px;
 }
 to {
   transform:rotate(360deg);
+  border-radius: 100px;
 }
 `
 
 const Box3 = styled.div`
 height:200px;
 width:200px;
+display:flex;
+justify-content:center;
+align-items:center;
 border-radius:30px;
 background-color:tomato;
-animation:${box3_animation} 1s infinite;
+animation:${box3_animation} 1s linear infinite;
+span {
+  font-size:30px;
+}
 `
 function App() {
   return (
@@ -71,7 +79,8 @@ function App() {
       <Input/>
     </Father>
     <Wrapper>
-      <Box3>박스1</Box3>
+      <Box3><span>Wow!</span></Box3>
+     
      
     </Wrapper>
     </>
