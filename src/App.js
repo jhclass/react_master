@@ -31,9 +31,9 @@ border-radius:10px;
 background-color:${(props)=>props.bgColor};
 text-align:Center;
 `
-const Link = styled(Btn)`
-
-`
+const Input = styled.input.attrs({required:true})`
+background-color:#eee;
+`;
 
 function App() {
   return (
@@ -41,7 +41,13 @@ function App() {
       <Box bgColor="red"><Text>Box1</Text></Box>
       <Circle bgColor="blue"><Text>Box2</Text></Circle>
       <Btn bgColor="green">Login</Btn>
-      <Link bgColor="pink" as="a" href="/">Link</Link>
+      <Btn bgColor="pink" as="a" href="/">Link</Btn>
+      <hr/>
+      <Input/>
+      <Input/>
+      <Input/>
+      <Input/>
+      <Input/>
     </Father>
   )
 }
