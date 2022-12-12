@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled,{keyframes} from "styled-components";
 
 const Father = styled.div`
 display:flex
@@ -35,8 +35,29 @@ const Input = styled.input.attrs({required:true})`
 background-color:#eee;
 `;
 
+const Wrapper = styled.div`
+display:flex
+`;
+
+const box3_animation = keyframes`
+from {
+  transform:rotate(0deg);
+}
+to {
+  transform:rotate(360deg);
+}
+`
+
+const Box3 = styled.div`
+height:200px;
+width:200px;
+border-radius:30px;
+background-color:tomato;
+animation:${box3_animation} 1s infinite;
+`
 function App() {
   return (
+    <>
     <Father>
       <Box bgColor="red"><Text>Box1</Text></Box>
       <Circle bgColor="blue"><Text>Box2</Text></Circle>
@@ -49,6 +70,12 @@ function App() {
       <Input/>
       <Input/>
     </Father>
+    <Wrapper>
+      <Box3>박스1</Box3>
+     
+    </Wrapper>
+    </>
+    
   )
 }
 
