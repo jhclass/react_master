@@ -24,11 +24,24 @@ const Text = styled.span`
  color:#fff;
 `
 
+const Btn = styled.button`
+width:50px; 
+height:30px;
+border-radius:10px;
+background-color:${(props)=>props.bgColor};
+text-align:Center;
+`
+const Link = styled(Btn)`
+
+`
+
 function App() {
   return (
     <Father>
       <Box bgColor="red"><Text>Box1</Text></Box>
       <Circle bgColor="blue"><Text>Box2</Text></Circle>
+      <Btn bgColor="green">Login</Btn>
+      <Link bgColor="pink" as="a" href="/">Link</Link>
     </Father>
   )
 }
