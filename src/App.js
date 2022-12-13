@@ -59,8 +59,18 @@ align-items:center;
 border-radius:30px;
 background-color:tomato;
 animation:${box3_animation} 1s linear infinite;
+cursor:pointer;
+
 span {
   font-size:30px;
+  opacity:0;
+  &:hover{
+    font-size:40px;
+  }
+  &:active{
+    opacity:1;
+  }
+ 
 }
 `
 function App() {
