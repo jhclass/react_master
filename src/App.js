@@ -75,9 +75,8 @@ ${Emoji} {
     font-size:40px;
   }
 
- 
 }
-`
+`;
 function App() {
   return (
     <>
