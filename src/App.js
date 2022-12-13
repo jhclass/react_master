@@ -50,6 +50,14 @@ to {
 }
 `
 
+const Emoji = styled.span`
+font-size:30px;
+opacity:1;
+color:#333;
+text-decoration:none;
+`;
+
+
 const Box3 = styled.div`
 height:200px;
 width:200px;
@@ -61,15 +69,12 @@ background-color:tomato;
 animation:${box3_animation} 1s linear infinite;
 cursor:pointer;
 
-span {
-  font-size:30px;
-  opacity:0;
+${Emoji} {
+    
   &:hover{
     font-size:40px;
   }
-  &:active{
-    opacity:1;
-  }
+
  
 }
 `
@@ -89,7 +94,7 @@ function App() {
       <Input/>
     </Father>
     <Wrapper>
-      <Box3><span>Wow!</span></Box3>
+      <Box3><Emoji as="a" href="naver.com">Wow!</Emoji></Box3>
      
      
     </Wrapper>
