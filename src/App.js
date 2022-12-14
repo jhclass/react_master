@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Title  = styled.h1`
-color:tomato;
+color:${(props)=>props.theme.textColor};
 `;
 
 const Wrapper = styled.div`
@@ -10,7 +10,8 @@ height:100vh;
 width:100vw;
 justify-content:center;
 align-items:center;
-background-color:${props=>props.theme}
+background-color:${props=>props.theme.backgroundColor};
+color:${props=> props.theme.textColor}
 `;
 
 

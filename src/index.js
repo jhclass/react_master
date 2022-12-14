@@ -4,7 +4,7 @@ import {ThemeProvider} from 'styled-components';
 import App from './App';
 
 const darkTheme = {
-  textColor:"smokewhite",
+  textColor:"whitesmoke",
   backgroundColor:"#111"
 
 }
