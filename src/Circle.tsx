@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 interface ContainerProps {
     cbgColor:string;
+    bColor:string;
 }
 
 const Container = styled.div<ContainerProps>`
@@ -14,12 +15,13 @@ const Container = styled.div<ContainerProps>`
 `;
 interface CircleProps {
    bgColor:string;
+   borderColor?:string; //borderColor가 required 된 상태이기 때문에 Container 속성에 ?? 를 넣어야 한다.
 }
 
 
-function Circle({bgColor}:CircleProps) {
+function Circle({bgColor,borderColor}:CircleProps) {
     return (
-    <Container cbgColor={bgColor}>box</Container>
+    <Container cbgColor={bgColor} bColor={borderColor ?? bgColor}>box</Container>
     );
 }
 
