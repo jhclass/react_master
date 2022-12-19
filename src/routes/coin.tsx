@@ -6,7 +6,7 @@ function Coin(){
     const {coinId} = useParams<Params>();
     //console.log(params);
     return(
-        <h1></h1>
+        <h1>Coin:{coinId}</h1>
     );
 }
 
