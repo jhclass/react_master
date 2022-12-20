@@ -1,4 +1,3 @@
-import React,{useState} from 'react';
 import { createGlobalStyle } from 'styled-components';
 import Router from './routes/router';
 import './App.css';
@@ -54,8 +53,8 @@ table {
   border-spacing: 0;
 }
 body {
-  background-color:${props=>props.theme.bgColor}
-  color:${props=>props.theme.textColor}
+  background-color:${props=>props.theme.accentColor};
+  color:${props=>props.theme.textColor};
   font-family: 'Noto Sans KR', sans-serif;
 }
 a {text-decoration:none;}
