@@ -4,6 +4,7 @@ import Router from './routes/router';
 import './App.css';
 
 const GlobalStyle = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;500;700;900&display=swap');
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -19,6 +20,7 @@ main, menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
   margin: 0;
   padding: 0;
+  font-family: 'Noto Sans KR', sans-serif;
   border: 0;
   font-size: 100%;
   font: inherit;
@@ -51,6 +53,9 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+a {text-decoration:none;}
+*{box-sizing:border-box;}
+
 `;
 
 function App() {
