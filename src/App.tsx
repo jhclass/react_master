@@ -20,7 +20,7 @@ main, menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
   margin: 0;
   padding: 0;
-  font-family: 'Noto Sans KR', sans-serif;
+  
   border: 0;
   font-size: 100%;
   font: inherit;
@@ -52,6 +52,11 @@ q:before, q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+body {
+  background-color:${props=>props.theme.bgColor}
+  color:${props=>props.theme.textColor}
+  font-family: 'Noto Sans KR', sans-serif;
 }
 a {text-decoration:none;}
 *{box-sizing:border-box;}
