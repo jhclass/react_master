@@ -16,7 +16,14 @@ color:${props => props.theme.textColor};
 margin-bottom:10px;
 padding:20px;
 border-radius:15px;
-
+a {
+    transition : color .2s ease-in;
+}
+&:hover {
+    a {
+        color:tomato}
+    }
+}
 `;
 
 
