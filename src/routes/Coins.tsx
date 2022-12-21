@@ -2,7 +2,7 @@ import React,{useEffect, useState} from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 const Container = styled.div`
-padding:0px 20px;
+padding:20px 20px;
 max-width:480px;
 margin:0 auto;
 `;
@@ -12,7 +12,9 @@ const Header = styled.header`
     justify-content:center;
     align-items:center;
 `;
-const CoinsList = styled.ul``;
+const CoinsList = styled.ul`
+padding-top:20px;
+`;
 const Coin = styled.li`
 background-color:white;
 color:${props => props.theme.textColor};
@@ -34,6 +36,13 @@ const Title = styled.h1`
  color:${props=>props.theme.bgColor};
  font-size:48px;
  `;
+ const Loader = styled.div`
+ text-align:center;
+ color:${props=>props.theme.bgColor};
+ font-size:30px;
+ padding-top:20px;
+ `;
+
 
 
 
@@ -63,8 +72,8 @@ function Coins(){
     },[]);
     return(
         <Container>
-            <Header><Title>코인</Title></Header>
-            {loading ? ("Loading...") : (<CoinsList>
+            <Header><Title>COIN's</Title></Header>
+            {loading ? (<Loader>Loading...</Loader>) : (<CoinsList>
                 {Coins.map((coin)=>
                 <Coin key={coin.id}>
                     <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
