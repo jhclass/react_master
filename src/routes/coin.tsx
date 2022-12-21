@@ -43,7 +43,7 @@ function Coin(){
     console.log(state.name); // 어떤 정보가 전달이 되었나 확인해보자
     return(
         <Container>
-            <Header><Title>{state.name.toUpperCase()}</Title></Header>
+            <Header><Title>{state?.name || "Loding"}</Title></Header>
             {loading ? (<Loader>Loading...</Loader>) : null }
         </Container>
     );
