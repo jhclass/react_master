@@ -53,7 +53,9 @@ function Coins(){
         (async()=>{
             const response = await fetch("https://api.coinpaprika.com/v1/coins");
             const json = await response.json();
-            console.log(json);
+            console.log(json);//제대로 가져오고 있는지?
+            setCoins(json.slice(0,100)); // 100개만 가져오자
+            console.log(Coins,'오노'); // 100개 전달 완료
         })();
         
     },[]);
