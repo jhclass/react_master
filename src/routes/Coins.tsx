@@ -17,7 +17,7 @@ padding-top:20px;
 `;
 const Coin = styled.li`
 background-color:white;
-color:${props => props.theme.textColor};
+color:#038aff;
 margin-bottom:10px;
 padding:20px;
 border-radius:15px;
@@ -33,14 +33,27 @@ a {
 
 
 const Title = styled.h1`
+ font-family: 'Source Code Pro', monospace;
  color:${props=>props.theme.bgColor};
- font-size:48px;
+ font-size:26px;
+ font-weight:bold;
+ span{
+    color:#038aff;
+ }
  `;
  const Loader = styled.div`
  text-align:center;
  color:${props=>props.theme.bgColor};
  font-size:30px;
  padding-top:20px;
+ `;
+
+ const ImgCoin = styled.img`
+  display:inline-block;
+  width:25px;
+  height:25px;
+  vertical-align:middle;
+  margin-right:15px;
  `;
 
 
@@ -72,10 +85,11 @@ function Coins(){
     },[]);
     return(
         <Container>
-            <Header><Title>COIN's</Title></Header>
+            <Header><Title>What is your <span>coin?</span></Title></Header>
             {loading ? (<Loader>Loading...</Loader>) : (<CoinsList>
                 {Coins.map((coin)=>
                 <Coin key={coin.id}>
+                    <ImgCoin src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}/>
                     <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
                 </Coin>
                 )}
