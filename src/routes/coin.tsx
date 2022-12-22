@@ -41,15 +41,20 @@ function Coin(){
     const [loading,setLoading] = useState(true);
     const {state} = useLocation<RouteState>();
     //console.log(state.name); // 어떤 정보가 전달이 되었나 확인해보자
-
+    const [info,setInfo] = useState({});
+    const [priceInfo,setPriceInfo] = useState({});
     useEffect(()=>{
        (
         async()=>{
             //캡슐화
-            const coinData = await (await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)).json();
-            console.log(coinData);
-                
-            }
+            const infoData = await (await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)).json();
+            //console.log(coinData);
+            const priceData = await(await fetch(`https://api.coinpaprika.com/v1/ticker/${coinId}`)).json();
+           // console.log(priceData);    
+           setInfo(infoData);
+           setPriceInfo(priceData);
+        }
+            
         )(); //바로실행가능한 함수! ()
 
     },[]);
