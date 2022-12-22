@@ -1,5 +1,5 @@
 import {useLocation, useParams} from "react-router";
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import styled from "styled-components";
 interface Params{
     coinId:string;
@@ -41,6 +41,18 @@ function Coin(){
     const [loading,setLoading] = useState(true);
     const {state} = useLocation<RouteState>();
     //console.log(state.name); // 어떤 정보가 전달이 되었나 확인해보자
+
+    useEffect(()=>{
+       (
+        async()=>{
+            //캡슐화
+            const coinData = await (await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)).json();
+            console.log(coinData);
+                
+            }
+        )(); //바로실행가능한 함수! ()
+
+    },[]);
     return(
         <Container>
             <Header><Title>{state?.name || "Loading"}</Title></Header>
