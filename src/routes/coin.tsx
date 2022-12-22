@@ -5,6 +5,7 @@ import styled from "styled-components";
 const Container = styled.div`
 padding:20px 20px;
 max-width:480px;
+min-width:480px;
 margin:0 auto;
 `;
 const Header = styled.header`
@@ -30,9 +31,52 @@ const Title = styled.h1`
  padding-top:20px;
  `;
 
+ const Cbox = styled.div`
+    max-width:480px;
+    padding:20px 0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color:${props=>props.theme.bgColor};
+    border-radius:20px;   
+    margin-top:20px;
+    cursor:pointer;
+        
+        &:nth-of-type(1){margin-top:0;}
+        &:hover {background-color: #7393B3; box-shadow: 1px 1px 1px rgba(0,0,0,0.3);}
+        div {
+        background:${props=>props.theme.accentColor};
+        padding:20px 30px;
+        margin-left:20px;
+        text-align:center;
+        border-radius:20px;
+        color:${props=>props.theme.bgColor};
+        }
+        div:first-child {margin-left:0px;}
+        div:last-child{background-color:transparent;}
+
+        div > span {display:block;margin-bottom:20px; font-size:20px; font-weight:bold;}
+        div > span:last-child {margin:0;}
+        div > span > img {width:50px;}
+    `;
+ 
+    const ParagraphBox = styled.p`
+        color:#111 !important;
+        font-size:18px;
+        line-height:1.5;
+        text-align:justify;
+        padding:0px 20px;
+        &:hover {
+            text-shadow:1px 1px 1px rgba(0,0,0,0.1);
+            color:#fff !important;
+        }
+        span {display:block;}
+        span:nth-child(1) {font-size:20px; font-weight:bold; margin-bottom:20px;}
+    `;
+
  interface Params{
     coinId:string;
-}
+ }
 
  interface RouteState{
    name:string;
@@ -115,7 +159,23 @@ function Coin(){
     return(
         <Container>
             <Header><Title>{state?.name || "Loading"}</Title></Header>
-            {loading ? (<Loader>Loading...</Loader>) :  priceInfo?.price_btc}
+            {loading ? (<Loader>Loading...</Loader>) : 
+            <>
+                <Cbox>
+                    <div><span>RANK</span><span>{priceInfo?.rank}</span></div>
+                    <div><span>SYMBOL</span><span>{priceInfo?.symbol}</span></div>
+                    <div><span><img src={info?.logo}/></span></div>
+                </Cbox>
+                <Cbox>
+                    <ParagraphBox>
+                        <span>Description</span>
+                        
+                        <span>{info?.description}</span>
+                    </ParagraphBox>
+              
+                </Cbox>
+            </>
+            }
         </Container>
     );
 }
