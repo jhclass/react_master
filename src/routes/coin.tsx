@@ -82,11 +82,11 @@ text-align:center;
 padding-bottom:20px;
 `;
 
-const Tab = styled.span`
+const Tab = styled.span<{ isActive:boolean }>`
 display:inline-block;
 margin-right:20px;
 font-size:18px;
-    a {color:${props=>props.theme.accentColor}; font-weight:bold; border-radius:10px; padding:10px 30px; display:block;margin-top:20px;background-color:${props => props.theme.bgColor}}
+    a {color:${props=>props.theme.accentColor}; font-weight:bold; border-radius:10px; padding:10px 30px; display:block;margin-top:20px;background-color:${props =>props.isActive ? props.theme.btnColor : props.theme.darkColor}}
 `;
 
 interface Params{
@@ -155,6 +155,7 @@ function Coin(){
     const [info, setInfo] = useState<InfoData>();
     const [priceInfo, setPriceInfo] = useState<PriceData>();
     const priceMatch = useRouteMatch(`/${coinId}/price`);
+    const chartMatch = useRouteMatch(`/${coinId}/chart`);
     console.log(priceMatch);
     useEffect(()=>{
        (
@@ -196,8 +197,8 @@ function Coin(){
                     <div><span>Max Supply</span><span>{priceInfo?.max_supply}</span></div>
                 </Cbox>
                 <TabContainer>
-                    <Tab><Link to={`/${coinId}/chart`}>Chart</Link></Tab>
-                    <Tab><Link to={`/${coinId}/price`}>Price</Link></Tab>
+                    <Tab isActive={ chartMatch !== null }><Link to={`/${coinId}/chart`}>Chart</Link></Tab>
+                    <Tab isActive={ priceMatch !== null }><Link to={`/${coinId}/price`}>Price</Link></Tab>
                 </TabContainer>
                 
                 
