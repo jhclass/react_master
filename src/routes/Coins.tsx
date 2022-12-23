@@ -71,9 +71,7 @@ interface CoinInterface {
     is_active: boolean,
     type: string,
 }
-const btnClick = () => {
-    alert('a');
-}
+
 
 function Coins(){
     const [Coins,setCoins] = useState<CoinInterface[]>([]);
@@ -87,9 +85,10 @@ function Coins(){
             setCoins(json.slice(0,100)); // 100개만 가져오자
             console.log(Coins,'오노'); // 100개 전달 완료
             setLoading(false);
-            $('.oncBtn').on('click',function(){
-                alert('a');
-            })
+            //jQuery 적용한번 해봄 :)
+            // $('.oncBtn').on('click',function(){
+            //     alert('a');
+            // })
         })();
         
     },[]);
