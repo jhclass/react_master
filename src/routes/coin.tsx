@@ -1,6 +1,9 @@
-import {useLocation,useParams} from "react-router";
+import {Switch, Route, useLocation, useParams, useRouteMatch} from "react-router";
+import {Link} from "react-router-dom";
 import React,{useEffect, useState} from 'react';
 import styled from "styled-components";
+import Chart from "./Chart";
+import Price from "./Price";
 
 const Container = styled.div`
 padding:20px 20px;
@@ -43,7 +46,7 @@ margin-top:20px;
 cursor:pointer;
     
     &:nth-of-type(1){margin-top:0;}
-    &:hover {background-color: #7393B3; box-shadow: 1px 1px 1px rgba(0,0,0,0.3);}
+    &:hover {background-color: #7393B3; box-shadow: 1px 1px 1px rgba(0,0,0,0.3),1px 1px 1px rgba(0,0,0,0.3) inset;}
     div {
     background:${props=>props.theme.accentColor};
     padding:20px 30px;
@@ -53,7 +56,7 @@ cursor:pointer;
     color:${props=>props.theme.bgColor};
     }
     div:first-child {margin-left:0px;}
-    div:last-child{background-color:transparent;}
+    div:nth-child(3){background-color:transparent;}
 
     div > span {display:block;margin-bottom:20px; font-size:20px; font-weight:bold;}
     div > span:last-child {margin:0;}
@@ -64,7 +67,7 @@ const ParagraphBox = styled.p`
 color:#111 !important;
 font-size:18px;
 line-height:1.5;
-text-align:justify;
+text-align:left;
 padding:0px 20px;
 &:hover {
     text-shadow:1px 1px 1px rgba(0,0,0,0.1);
@@ -72,6 +75,18 @@ padding:0px 20px;
 }
     span {display:block;}
     span:nth-child(1) {font-size:20px; font-weight:bold; margin-bottom:20px;}
+`;
+
+const TabContainer = styled.div`
+text-align:center;
+padding-bottom:20px;
+`;
+
+const Tab = styled.span`
+display:inline-block;
+margin-right:20px;
+font-size:18px;
+    a {color:${props=>props.theme.accentColor}; font-weight:bold; border-radius:10px; padding:10px 30px; display:block;margin-top:20px;background-color:${props => props.theme.bgColor}}
 `;
 
 interface Params{
@@ -139,6 +154,8 @@ function Coin(){
     //console.log(state.name); // 어떤 정보가 전달이 되었나 확인해보자
     const [info, setInfo] = useState<InfoData>();
     const [priceInfo, setPriceInfo] = useState<PriceData>();
+    const priceMatch = useRouteMatch(`/${coinId}/price`);
+    console.log(priceMatch);
     useEffect(()=>{
        (
         async()=>{
@@ -158,7 +175,7 @@ function Coin(){
 
     return(
         <Container>
-            <Header><Title>{state?.name || "Loading"}</Title></Header>
+            <Header><Title>{state?.name || info?.name}</Title></Header>
             {loading ? (<Loader>Loading...</Loader>) : 
             <>
                 <Cbox>
@@ -174,6 +191,21 @@ function Coin(){
                     </ParagraphBox>
               
                 </Cbox>
+                <Cbox>
+                    <div><span>Total Supply</span><span>{priceInfo?.total_supply}</span></div>
+                    <div><span>Max Supply</span><span>{priceInfo?.max_supply}</span></div>
+                </Cbox>
+                <TabContainer>
+                    <Tab><Link to={`/${coinId}/chart`}>Chart</Link></Tab>
+                    <Tab><Link to={`/${coinId}/price`}>Price</Link></Tab>
+                </TabContainer>
+                
+                
+                
+                <Switch>
+                    <Route path={`/${coinId}/price`}><Price/></Route>
+                    <Route path={`/${coinId}/chart`}><Chart/></Route>
+                </Switch>
             </>
             }
         </Container>
