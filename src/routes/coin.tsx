@@ -207,6 +207,7 @@ function Coin(){
                     <Route path={`/${coinId}/price`}><Price/></Route>
                     <Route path={`/${coinId}/chart`}><Chart/></Route>
                 </Switch>
+             
             </>
             }
         </Container>

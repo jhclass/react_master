@@ -1,6 +1,8 @@
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Coin from './coin';
 import Coins from './Coins';
+import HomeBtn from './btnComponents/HomeBtn';
+import MenuBtn from './btnComponents/MenuBtn';
 
 function Router(){
     return(
@@ -13,6 +15,9 @@ function Router(){
                     <Coins/>
                 </Route>
             </Switch>
+            
+            <HomeBtn />
+            <MenuBtn />
         </BrowserRouter>
     );
 }
