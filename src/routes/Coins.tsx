@@ -1,6 +1,8 @@
 import React,{useEffect, useState} from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import $ from "jquery";
+
 const Container = styled.div`
 padding:20px 20px;
 max-width:480px;
@@ -69,10 +71,14 @@ interface CoinInterface {
     is_active: boolean,
     type: string,
 }
+const btnClick = () => {
+    alert('a');
+}
 
 function Coins(){
     const [Coins,setCoins] = useState<CoinInterface[]>([]);
     const [loading,setLoading] = useState(true);
+  
     useEffect(()=>{
         (async()=>{
             const response = await fetch("https://api.coinpaprika.com/v1/coins");
@@ -81,6 +87,9 @@ function Coins(){
             setCoins(json.slice(0,100)); // 100개만 가져오자
             console.log(Coins,'오노'); // 100개 전달 완료
             setLoading(false);
+            $('.oncBtn').on('click',function(){
+                alert('a');
+            })
         })();
         
     },[]);
@@ -89,7 +98,7 @@ function Coins(){
             <Header><Title>What is your <span>coin?</span></Title></Header>
             {loading ? (<Loader>Loading...</Loader>) : (<CoinsList>
                 {Coins.map((coin)=>
-                <Coin key={coin.id}>
+                <Coin key={coin.id} className="oncBtn">
                     <ImgCoin src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}/>
                     <Link to={{
                         pathname:`/${coin.id}`,

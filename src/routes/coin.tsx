@@ -68,7 +68,7 @@ const Title = styled.h1`
         padding:0px 20px;
         &:hover {
             text-shadow:1px 1px 1px rgba(0,0,0,0.1);
-            color:#fff !important;
+            color:#fff;
         }
         span {display:block;}
         span:nth-child(1) {font-size:20px; font-weight:bold; margin-bottom:20px;}
