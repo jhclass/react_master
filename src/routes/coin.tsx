@@ -1,7 +1,9 @@
 import {Switch, Route, useLocation, useParams, useRouteMatch} from "react-router";
 import {Link} from "react-router-dom";
 import React,{useEffect, useState} from 'react';
+import {useQuery} from 'react-query';
 import styled from "styled-components";
+import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
 
@@ -145,56 +147,60 @@ percent_change_7d : string;
 last_updated : string;
 }
 
-function Coin(){
 
+
+function Coin(){
+    
     const {coinId} = useParams<Params>();
     //console.log(params);
-    const [loading,setLoading] = useState(true);
-    const {state} = useLocation<RouteState>();
-    //console.log(state.name); // 어떤 정보가 전달이 되었나 확인해보자
-    const [info, setInfo] = useState<InfoData>();
     const [priceInfo, setPriceInfo] = useState<PriceData>();
     const priceMatch = useRouteMatch(`/${coinId}/price`);
     const chartMatch = useRouteMatch(`/${coinId}/chart`);
-    console.log(priceMatch);
-    useEffect(()=>{
-       (
-        async()=>{
-         //캡슐화
-        const infoData = await (await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)).json();
-        console.log(infoData);
-        const priceData = await(await fetch(`https://api.coinpaprika.com/v1/ticker/${coinId}`)).json();
-        console.log(priceData);    
-        setInfo(infoData);
-           setPriceInfo(priceData);
-           setLoading(false);                           
-        }
+    const {isLoading:infoLoading,data:infoData} = useQuery<InfoData>(["infoData",coinId],()=>fetchCoinInfo(coinId));
+    const {isLoading:tickersLoading,data:tickersData} = useQuery<PriceData>(["priceData",coinId],()=>fetchCoinTickers(coinId));
+    // const [loading,setLoading] = useState(true);
+     const {state} = useLocation<RouteState>();
+    // //console.log(state.name); // 어떤 정보가 전달이 되었나 확인해보자
+    // const [info, setInfo] = useState<InfoData>();
+    // console.log(priceMatch);
+    // useEffect(()=>{
+    //    (
+    //     async()=>{
+    //      //캡슐화
+    //     const infoData = await (await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)).json();
+    //     console.log(infoData);
+    //     const priceData = await(await fetch(`https://api.coinpaprika.com/v1/ticker/${coinId}`)).json();
+    //     console.log(priceData);    
+    //     setInfo(infoData);
+    //        setPriceInfo(priceData);
+    //        setLoading(false);                           
+    //     }
             
-        )(); //바로실행가능한 함수! ()
+    //     )(); //바로실행가능한 함수! ()
 
-    },[]);
-
+    // },[coinId]);
+    const loading = infoLoading || tickersLoading;
     return(
         <Container>
-            <Header><Title>{state?.name || info?.name}</Title></Header>
+            <Header><Title>{state?.name || infoData?.name}</Title></Header>
             {loading ? (<Loader>Loading...</Loader>) : 
             <>
                 <Cbox>
                     <div><span>RANK</span><span>{priceInfo?.rank}</span></div>
                     <div><span>SYMBOL</span><span>{priceInfo?.symbol}</span></div>
-                    <div><span><img src={info?.logo}/></span></div>
+                    <div><span><img src={infoData?.logo}/></span></div>
                 </Cbox>
                 <Cbox>
                     <ParagraphBox>
                         <span>Description</span>
                         
-                        <span>{info?.description}</span>
+                        <span>{infoData?.description}</span>
                     </ParagraphBox>
               
                 </Cbox>
                 <Cbox>
-                    <div><span>Total Supply</span><span>{priceInfo?.total_supply}</span></div>
-                    <div><span>Max Supply</span><span>{priceInfo?.max_supply}</span></div>
+                    <div><span>Total Supply</span><span>{tickersData?.total_supply}</span></div>
+                    <div><span>Max Supply</span><span>{tickersData?.max_supply}</span></div>
                 </Cbox>
                 <TabContainer>
                     <Tab isActive={ chartMatch !== null }><Link to={`/${coinId}/chart`}>Chart</Link></Tab>
