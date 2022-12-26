@@ -76,7 +76,7 @@ interface CoinInterface {
 
 
 function Coins(){
-    const {isLoading,data} = useQuery<CoinInterface[]>("allCoins", fetchCoins);
+    const {data,isLoading} = useQuery<CoinInterface[]>("allCoins", fetchCoins);
     // const [Coins,setCoins] = useState<CoinInterface[]>([]);
     // const [loading,setLoading] = useState(true);
   
