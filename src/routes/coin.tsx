@@ -167,7 +167,7 @@ function Coin(){
         console.log(priceData);    
         setInfo(infoData);
            setPriceInfo(priceData);
-           setLoading(false);
+           setLoading(false);                           
         }
             
         )(); //바로실행가능한 함수! ()
