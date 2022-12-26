@@ -186,8 +186,8 @@ function Coin(){
             {loading ? (<Loader>Loading...</Loader>) : 
             <>
                 <Cbox>
-                    <div><span>RANK</span><span>{priceInfo?.rank}</span></div>
-                    <div><span>SYMBOL</span><span>{priceInfo?.symbol}</span></div>
+                    <div><span>RANK</span><span>{tickersData?.rank}</span></div>
+                    <div><span>SYMBOL</span><span>{tickersData?.symbol}</span></div>
                     <div><span><img src={infoData?.logo}/></span></div>
                 </Cbox>
                 <Cbox>
