@@ -22,3 +22,10 @@ export function fetchCoinTickers(coinId:string){
     res.json()
     );
 }
+const BASE_URL_2 = `https://ohlcv-api.nomadcoders.workers.dev`;
+export function fetchCoinHistory(coinId:string) {
+    //const endDate = Math.floor(Date.now()/1000);
+    //const startDate = endDate - (60*60*24*7);
+    return fetch(`${BASE_URL_2}?/coinId=${coinId}`).then((res)=>res.json());
+}
+
