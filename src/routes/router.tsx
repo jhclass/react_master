@@ -8,10 +8,10 @@ function Router(){
     return(
         <BrowserRouter>
             <Switch>
-                <Route path="/:coinId">
+                <Route path="/:coinId/">
                     <Coin/>
                 </Route>
-                <Route path="/">
+                <Route exact path="/">
                     <Coins/>
                 </Route>
             </Switch>

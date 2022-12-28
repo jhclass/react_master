@@ -103,7 +103,7 @@ function Coins(){
                 <Coin key={coin.id} className="oncBtn">
                     <ImgCoin src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}/>
                     <Link to={{
-                        pathname:`/${coin.id}`,
+                        pathname:`/${coin.id}/chart`,
                         state: {name:coin.name}
                     }}>{coin.name} &rarr;</Link>
                 </Coin>
