@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 import $ from "jquery";
 import { fetchCoins } from "../api";
+import { Helmet } from "react-helmet";
 
 const Container = styled.div`
 padding:20px 20px;
@@ -97,6 +98,9 @@ function Coins(){
     // },[]);
     return(
         <Container>
+            <Helmet>
+                <title>What is your coin?</title>
+            </Helmet>
             <Header><Title>What is your <span>coin?</span></Title></Header>
             {isLoading ? (<Loader>Loading...</Loader>) : (<CoinsList>
                 {data?.slice(0,100).map((coin)=>

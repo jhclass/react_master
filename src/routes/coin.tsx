@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
+import { Helmet } from "react-helmet";
+import { info } from "console";
 
 const Container = styled.div`
 padding:20px 20px;
@@ -164,7 +166,7 @@ function Coin(){
     const chartMatch = useRouteMatch(`/${coinId}/chart`);
     const {isLoading:infoLoading,data:infoData} = useQuery<InfoData>(["infoData",coinId],()=>fetchCoinInfo(coinId));
     const {isLoading:tickersLoading,data:tickersData} = useQuery<PriceData>(["priceData",coinId],()=>fetchCoinTickers(coinId),{
-        refetchInterval:5000, //5초 마다 refetching! 
+        refetchInterval:10000, //5초 마다 refetching! 
     });
     // const [loading,setLoading] = useState(true);
      const {state} = useLocation<RouteState>();
@@ -190,6 +192,7 @@ function Coin(){
     const loading = infoLoading || tickersLoading;
     return(
         <Container>
+            <Helmet><title>{state?.name || infoData?.name}</title></Helmet>
             <Header><Title>{state?.name || infoData?.name}</Title></Header>
             {loading ? (<Loader>Loading...</Loader>) : 
             <>
