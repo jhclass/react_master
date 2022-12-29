@@ -145,6 +145,12 @@ percent_change_1h : string;
 percent_change_24h : string;
 percent_change_7d : string;
 last_updated : string;
+quotes: {
+ USD: {
+    price:number;
+ }
+}
+
 }
 
 
@@ -157,7 +163,9 @@ function Coin(){
     const priceMatch = useRouteMatch(`/${coinId}/price`);
     const chartMatch = useRouteMatch(`/${coinId}/chart`);
     const {isLoading:infoLoading,data:infoData} = useQuery<InfoData>(["infoData",coinId],()=>fetchCoinInfo(coinId));
-    const {isLoading:tickersLoading,data:tickersData} = useQuery<PriceData>(["priceData",coinId],()=>fetchCoinTickers(coinId));
+    const {isLoading:tickersLoading,data:tickersData} = useQuery<PriceData>(["priceData",coinId],()=>fetchCoinTickers(coinId),{
+        refetchInterval:5000, //5초 마다 refetching! 
+    });
     // const [loading,setLoading] = useState(true);
      const {state} = useLocation<RouteState>();
     // //console.log(state.name); // 어떤 정보가 전달이 되었나 확인해보자
@@ -200,7 +208,7 @@ function Coin(){
                 </Cbox>
                 <Cbox>
                     <div><span>Total Supply</span><span>{tickersData?.total_supply}</span></div>
-                    <div><span>Max Supply</span><span>{tickersData?.max_supply}</span></div>
+                    <div><span>Price</span><span>${tickersData?.quotes.USD.price.toFixed(4)}</span></div>
                 </Cbox>
                 <TabContainer>
                     <Tab isActive={ chartMatch !== null }><Link to={`/${coinId}/chart`}>Chart</Link></Tab>
