@@ -2,6 +2,9 @@ import { createGlobalStyle } from 'styled-components';
 import Router from './routes/router';
 import './App.css';
 import {ReactQueryDevtools} from 'react-query/devtools';
+import { ThemeProvider } from 'styled-components';
+import {darkTheme,lightTheme} from './theme';
+import { useState } from 'react';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;500;700;900&display=swap');
@@ -65,11 +68,17 @@ a {text-decoration:none;}
 `;
 
 function App() {
+  const [isDark,setIsDark] = useState(false);
+  const toggleDark = ()=> setIsDark((current)=>!current);
+
   return (
-    <>
-      <GlobalStyle/>
-      <Router/>
-      <ReactQueryDevtools initialIsOpen={true}/>
+    <>      
+      <ThemeProvider theme={isDark ? darkTheme:lightTheme}>
+        <button onClick={toggleDark}>다크모드</button>
+        <GlobalStyle/>
+        <Router/>
+        <ReactQueryDevtools initialIsOpen={true}/>
+      </ThemeProvider>
     </>
     
     

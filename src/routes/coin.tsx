@@ -68,7 +68,7 @@ cursor:pointer;
 `;
  
 const ParagraphBox = styled.p`
-color:#111 !important;
+color:${props=>props.theme.textColor};
 font-size:18px;
 line-height:1.5;
 text-align:left;

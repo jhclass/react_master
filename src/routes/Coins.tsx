@@ -22,7 +22,7 @@ const CoinsList = styled.ul`
 padding-top:20px;
 `;
 const Coin = styled.li`
-background-color:white;
+background-color:${props=>props.theme.bgColor};
 color:#038aff;
 margin-bottom:10px;
 padding:20px;
@@ -40,11 +40,11 @@ a {
 
 const Title = styled.h1`
  font-family: 'Source Code Pro', monospace;
- color:${props=>props.theme.bgColor};
+ color:${props=>props.theme.textColor};
  font-size:26px;
  font-weight:bold;
  span{
-    color:#038aff;
+    color:${props=>props.theme.bgColor};
  }
  `;
  const Loader = styled.div`
