@@ -4,11 +4,9 @@ import Coins from './Coins';
 import HomeBtn from './btnComponents/HomeBtn';
 import MenuBtn from './btnComponents/MenuBtn';
 
-interface IRouterProps {
-    toggleDark: ()=>void
-}
 
-function Router({toggleDark}:IRouterProps){
+
+function Router(){
     return(
         <BrowserRouter>
             <Switch>
@@ -16,7 +14,7 @@ function Router({toggleDark}:IRouterProps){
                     <Coin/>
                 </Route>
                 <Route exact path="/">
-                    <Coins toggleDark={toggleDark}/>
+                    <Coins/>
                 </Route>
             </Switch>
             
