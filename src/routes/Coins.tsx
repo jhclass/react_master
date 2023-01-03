@@ -75,8 +75,11 @@ interface CoinInterface {
     type: string,
 }
 
+interface ICoinsProps {
+    toggleDark: ()=> void;
+}
 
-function Coins(){
+function Coins({toggleDark}:ICoinsProps){
     const {data,isLoading} = useQuery<CoinInterface[]>("allCoins", fetchCoins);
     // const [Coins,setCoins] = useState<CoinInterface[]>([]);
     // const [loading,setLoading] = useState(true);
@@ -96,12 +99,16 @@ function Coins(){
     //     })();
         
     // },[]);
+  
     return(
         <Container>
             <Helmet>
                 <title>What is your coin?</title>
             </Helmet>
-            <Header><Title>What is your <span>coin?</span></Title></Header>
+            <Header>
+            <Title>What is your <span>coin?</span></Title>
+            <button onClick={toggleDark}>다크모드</button>
+            </Header>
             {isLoading ? (<Loader>Loading...</Loader>) : (<CoinsList>
                 {data?.slice(0,100).map((coin)=>
                 <Coin key={coin.id} className="oncBtn">
