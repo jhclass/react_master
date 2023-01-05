@@ -5,6 +5,8 @@ import {Link} from "react-router-dom";
 import $ from "jquery";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
+import { isDarkAtom } from './atom';
+import { useSetRecoilState,useRecoilValue } from "recoil";
 
 const Container = styled.div`
 padding:20px 20px;
@@ -60,6 +62,7 @@ const Title = styled.h1`
   height:25px;
   vertical-align:middle;
   margin-right:15px;
+  
  `;
 
 
@@ -77,6 +80,9 @@ interface CoinInterface {
 
 
 function Coins(){
+   
+    const setDarkAtom = useSetRecoilState(isDarkAtom);
+    const toggleDarkAtom = ()=>{setDarkAtom((prev)=>!prev)}
     const {data,isLoading} = useQuery<CoinInterface[]>("allCoins", fetchCoins);
    
   
@@ -87,7 +93,7 @@ function Coins(){
             </Helmet>
             <Header>
             <Title>What is your <span>coin?</span></Title>
-            <button >다크모드</button>
+            <button onClick={toggleDarkAtom}>다크모드</button>
             </Header>
             {isLoading ? (<Loader>Loading...</Loader>) : (<CoinsList>
                 {data?.slice(0,100).map((coin)=>
