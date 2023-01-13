@@ -3,6 +3,7 @@ import { useState } from "react";
 
 function ToDoList() {
     const [toDo,setTodo] = useState("");
+    const [toDoError,setToDoError] = useState("");
     const onChange = (event:React.FormEvent<HTMLInputElement>)=>{ // :any 를 안쓰면 value 라는 값을 못찾는다.
         // console.log(event.target.value);
         // const {value}=event.target
@@ -11,7 +12,11 @@ function ToDoList() {
     }
     const onSubmit = (event:React.FormEvent<HTMLFormElement>)=>{
         event.preventDefault();
-        console.log(toDo);
+        if (toDo.length < 10) {
+            setToDoError("좀 더 길게 작성해보세요...");
+            return console.log(toDoError);
+        }
+        console.log('submit');
     }
     return (
         
