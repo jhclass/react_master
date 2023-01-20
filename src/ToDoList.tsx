@@ -33,7 +33,7 @@ import {useForm} from "react-hook-form";
 function ToDoList() {
     const { register, handleSubmit, formState} = useForm();
     const onValid = (data:any)=>{
-        //console.log(data);
+        console.log(data);
     }
     //console.log(register("To Do"));
     //console.log(watch())
