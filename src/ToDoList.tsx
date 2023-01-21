@@ -31,16 +31,18 @@ import { isInterfaceDeclaration } from "typescript";
 //         </div>
 //     );
 // }
-interface messages {
-    errors:any,
-    password:number,
+interface Iform { //필수항목이 아닌게 있다면?  ?를 붙여  lastName?:string
+    
+    password:string,
     lastName:string,
     userName:string,
     firstName:string,
     email:string,
 }
 function ToDoList() {
-    const { register, handleSubmit, formState:{errors}} = useForm<messages>();
+    const { register, handleSubmit, formState:{errors}} = useForm<Iform>({defaultValues:{
+        email:"@naver.com"
+    }});
     const onValid = (data:any)=>{
         console.log(data);
     }
