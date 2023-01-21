@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {useForm} from "react-hook-form";
-import { Interface } from "readline";
-import { isInterfaceDeclaration } from "typescript";
+
 
 
 // function ToDoList() {
@@ -32,22 +31,36 @@ import { isInterfaceDeclaration } from "typescript";
 //     );
 // }
 interface Iform { //필수항목이 아닌게 있다면?  ?를 붙여  lastName?:string
-    
-    password:string,
+    password2:string,
+    password1:string,
     lastName:string,
     userName:string,
     firstName:string,
     email:string,
+    extraError?:string,
+    
 }
 function ToDoList() {
-    const { register, handleSubmit, formState:{errors}} = useForm<Iform>({defaultValues:{
+    const { register, handleSubmit, formState:{errors}, setError, setFocus} = useForm<Iform>({defaultValues:{
         email:"@naver.com"
     }});
-    const onValid = (data:any)=>{
-        console.log(data);
+    const onValid = (data:Iform)=>{
+        if(data.password1 !== data.password2){
+             //console.log(data);
+            setError("password2",{
+                message:"패스워드가 같지 않아요",
+            },
+            //{shouldFocus:true}
+            );
+            //setError를 통해 강제 포커스 시킬수 있다? 하지만 다시 선택영역을 발생시키지는 않음 setFocus가 훨씬 좋음.
+            setFocus("password2",{shouldSelect:true});
+       
+        }
+        setError("extraError",{message:"Server offline"});
     }
     //console.log(register("To Do"));
     //console.log(watch())
+    
     console.log(errors);
     
     return (
@@ -71,11 +84,18 @@ function ToDoList() {
                 <span>
                     {errors.userName?.message}
                 </span>
-                <input {...register("password",{required:"Password is required", minLength:{value:5, message:"Too Short!"}})} placeholder="Password"/>
+                <input {...register("password1",{required:"Password1 is required", minLength:{value:5, message:"Too Short!"}})} placeholder="Password1"/>
                 <span>
-                    {errors.password?.message}
+                    {errors.password1?.message}
+                </span>
+                <input id="focuss" {...register("password2",{required:"Password2 is required", minLength:{value:5, message:"Too Short!"}})} placeholder="Password2"/>
+                <span>
+                    {errors.password2?.message}
                 </span>
                 <button>Add</button>
+                <span>
+                    {errors.extraError?.message}
+                </span>
             </form>
         </div>
     );
