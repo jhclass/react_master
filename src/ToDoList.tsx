@@ -1,3 +1,4 @@
+import { validateHeaderValue } from "http";
 import { useState } from "react";
 import {useForm} from "react-hook-form";
 
@@ -70,9 +71,7 @@ function ToDoList() {
                 <span>
                     {errors.email?.message}
                 </span>
-                <input {...register("firstName",{required:"Password is required", minLength: {
-                    value:5,message:"Your first is too short"
-                }})} placeholder="First name"/>
+                <input {...register("firstName",{required:"Password is required", validate:(value)=>!value.includes('jin')?"잘 작성하였습니다:)":"'jin'이라는 글자는 포함할 수 없습니다."})} placeholder="First name"/>
                 <span>
                     {errors.firstName?.message}
                 </span>
