@@ -71,7 +71,13 @@ function ToDoList() {
                 <span>
                     {errors.email?.message}
                 </span>
-                <input {...register("firstName",{required:"Password is required", validate:(value)=>!value.includes('jin')?"잘 작성하였습니다:)":"'jin'이라는 글자는 포함할 수 없습니다."})} placeholder="First name"/>
+                <input {...register("firstName",{required:"Password is required", 
+                validate:
+                {
+                    noJin : (value)=>!value.includes("jin")?true:"jin 은 포함할 수 없습니다.",
+                    noHan : (value)=>!value.includes("han")?true:"han 은 포함할 수 없습니다."
+                }
+                })} placeholder="First name"/>
                 <span>
                     {errors.firstName?.message}
                 </span>
