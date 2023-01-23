@@ -1,9 +1,9 @@
 import React from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState,useSetRecoilState } from "recoil";
 import { IToDo,toDoState } from "../atoms";
 
 function ToDo({text,category,id}:IToDo) {
-    const setToDos = useRecoilState(toDoState);
+    const setToDos = useSetRecoilState(toDoState);
     // const onClick = (newCategory:IToDo["category"])=>{
     //     console.log(newCategory);
     // }
@@ -11,7 +11,13 @@ function ToDo({text,category,id}:IToDo) {
     const onClick = (event:React.MouseEvent<HTMLButtonElement>)=>{
         const {currentTarget:{name}} =event
         console.log(name);
+        setToDos((oldToDos)=>{
+            const targetIndex = oldToDos.findIndex(_this=>_this.id===id)
+            const newToDo = {text, id, category:name as any} //name은 "TO_DO" | "DOING" 이렇게 되어있어야 하는데 그냥 string이기 때문에 오류 as any로 회피해버림..
+            return [...oldToDos.slice(0,targetIndex),newToDo,...oldToDos.slice(targetIndex+1)];
+        })
     }
+    
     return (
     <li>
         <span>{text}</span>
