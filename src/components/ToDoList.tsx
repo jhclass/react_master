@@ -8,7 +8,7 @@ import ToDo from "./ToDo"
 function ToDoList() {
   
    
-    const [toDo,doing,done]= useRecoilValue(toDoSelector);
+    const toDos= useRecoilValue(toDoSelector);
     const [category,setCategory] = useRecoilState(categoryState);
    //console.log(selectorOutput);
     const onInput = (event:React.FormEvent<HTMLSelectElement>)=>{ //select > option이 변경되는것을 감지
@@ -27,11 +27,8 @@ function ToDoList() {
                     <option value="DONE">Done</option>
                 </select>
             </form>
-            
             <CreateToDo />
-            {category === "TO_DO" && toDo.map(aToDo=> <ToDo key={aToDo.id} {...aToDo}/>)}
-            {category === "DOING" && doing.map(aToDo=> <ToDo key={aToDo.id} {...aToDo}/>)}
-            {category === "DONE" && done.map(aToDo=> <ToDo key={aToDo.id} {...aToDo}/>)}
+            {toDos?.map((toDo)=><ToDo key={toDo.id} {...toDo}/>)}
             
         </div>
     );
