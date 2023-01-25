@@ -13,7 +13,7 @@ function ToDoList() {
    //console.log(selectorOutput);
     const onInput = (event:React.FormEvent<HTMLSelectElement>)=>{ //select > option이 변경되는것을 감지
         //console.log(event?.currentTarget.value)
-        setCategory(event.currentTarget.value);
+        setCategory(event.currentTarget.value as any);
     }
     console.log(category);
     return (
