@@ -1,25 +1,8 @@
 import { FormEvent, useState } from 'react';
 import { createGlobalStyle } from 'styled-components';
-import {atom, useRecoilState, selector, useRecoilValue} from 'recoil';
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 
-const minState = atom({
-  key:"minState",
-  default:0,
-})
 
-const changedTime = selector({
-  key:"changedTime",
-  get:({get})=>{
-    const min = get(minState);
-    return min/60;
-  },
-  set:({set},newVal)=>{
-    console.log('newval',newVal);
-    const hour = Number(newVal)*60;
-    set(minState,hour)
-
-  }
-});
 
 
 const GlobalStyle = createGlobalStyle`
@@ -83,23 +66,31 @@ a {text-decoration:none;}
 `;
 
 function App() {
-  //const [min,setMin] = useState(0);
-  const [min,setMin] = useRecoilState(minState);
-  const [hour,setHour] = useRecoilState(changedTime);
-  const onChange = (event:React.FormEvent<HTMLInputElement>)=>{
-    //console.log(event.currentTarget.value);
-    setMin(+event.currentTarget.value);
-  }
-  const onHoursChange = (event:React.FormEvent<HTMLInputElement>)=>{
-    setHour(+event.currentTarget.value);
-  }
+ const onDragEnd = ()=>{
+
+ };
    
   return (
-    <div>
-      <input type="number" value={min} placeholder='분' onChange={onChange}/>
-      <input type="number" value={hour} placeholder='시간' onChange={onHoursChange}/>
-    </div>
-    
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div>
+        <Droppable droppableId='one'>
+          {(magic)=>
+          <ul ref={magic.innerRef} {...magic.droppableProps}>
+            <Draggable draggableId="first" index={0}>{(magic)=><li 
+            ref={magic.innerRef}
+            {...magic.dragHandleProps}
+            {...magic.draggableProps}
+            >One</li>}</Draggable>
+            <Draggable draggableId="seconds" index={1}>{(magic)=><li
+            ref={magic.innerRef} 
+            {...magic.dragHandleProps}
+            {...magic.draggableProps}
+            >Two</li>}</Draggable>
+            
+          </ul>}
+        </Droppable>
+      </div>
+    </DragDropContext>
   );
 
 }
