@@ -78,9 +78,12 @@ function App() {
           <ul ref={magic.innerRef} {...magic.droppableProps}>
             <Draggable draggableId="first" index={0}>{(magic)=><li 
             ref={magic.innerRef}
-            {...magic.dragHandleProps}
             {...magic.draggableProps}
-            >One</li>}</Draggable>
+           
+     
+            >
+            <span {...magic.dragHandleProps}>💕</span>
+            One</li>}</Draggable>
             <Draggable draggableId="seconds" index={1}>{(magic)=><li
             ref={magic.innerRef} 
             {...magic.dragHandleProps}
