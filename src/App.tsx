@@ -1,6 +1,25 @@
+import { FormEvent, useState } from 'react';
 import { createGlobalStyle } from 'styled-components';
-import {minuteState, hourSelector} from './atoms'
-import { useRecoilState, useRecoilValue } from 'recoil';
+import {atom, useRecoilState, selector, useRecoilValue} from 'recoil';
+
+const minState = atom({
+  key:"minState",
+  default:0,
+})
+
+const changedTime = selector({
+  key:"changedTime",
+  get:({get})=>{
+    const min = get(minState);
+    return min/60;
+  },
+  set:({set},newVal)=>{
+    console.log('newval',newVal);
+    const hour = Number(newVal)*60;
+    set(minState,hour)
+
+  }
+});
 
 
 const GlobalStyle = createGlobalStyle`
@@ -64,22 +83,25 @@ a {text-decoration:none;}
 `;
 
 function App() {
-  const [minutes, setMinutes] = useRecoilState(minuteState);
-  const [hour,setHours] = useRecoilState(hourSelector);
-  const onMinutesChange = (event:React.FormEvent<HTMLInputElement>)=>{
-    setMinutes(+event.currentTarget.value);
+  //const [min,setMin] = useState(0);
+  const [min,setMin] = useRecoilState(minState);
+  const [hour,setHour] = useRecoilState(changedTime);
+  const onChange = (event:React.FormEvent<HTMLInputElement>)=>{
+    //console.log(event.currentTarget.value);
+    setMin(+event.currentTarget.value);
   }
   const onHoursChange = (event:React.FormEvent<HTMLInputElement>)=>{
-    setHours(+event.currentTarget.value);
+    setHour(+event.currentTarget.value);
   }
+   
   return (
-  <div>
-    <input type="number" placeholder="Minutes" value={minutes} onChange={onMinutesChange}/>
-    <input type="number" placeholder="Hours" value={hour} onChange={onHoursChange}/>
-  </div>
+    <div>
+      <input type="number" value={min} placeholder='분' onChange={onChange}/>
+      <input type="number" value={hour} placeholder='시간' onChange={onHoursChange}/>
+    </div>
     
-    
-  )
+  );
+
 }
 
 export default App;
