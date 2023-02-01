@@ -79,7 +79,7 @@ function App() {
             <Draggable draggableId="first" index={0}>{(magic)=><li 
             ref={magic.innerRef}
             {...magic.draggableProps}
-           
+              
      
             >
             <span {...magic.dragHandleProps}>💕</span>
@@ -88,8 +88,10 @@ function App() {
             ref={magic.innerRef} 
             {...magic.dragHandleProps}
             {...magic.draggableProps}
-            >Two</li>}</Draggable>
-            
+            >Two</li>}
+           
+            </Draggable>
+            {magic.placeholder} {/*위치가 중요 Droppable과 Draggable의 사이! */}
           </ul>}
         </Droppable>
       </div>
