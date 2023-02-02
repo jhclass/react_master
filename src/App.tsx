@@ -69,17 +69,19 @@ a {text-decoration:none;}
 
 const Wrapper = styled.div`
 display:flex;
-max-width:480px;
+max-width:680px;
 width:100%;
 margin:0 auto;
 justify-content: center;
 align-items:center;
 height:100vh;
+
 `;
 
 const Boards = styled.div`
 display:grid;
 width:100%;
+gap:10px;
 grid-template-columns: repeat(3,1fr);
 `;
 
