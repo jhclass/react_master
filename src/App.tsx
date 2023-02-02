@@ -4,6 +4,7 @@ import { createGlobalStyle } from 'styled-components';
 import {DragDropContext, Draggable, Droppable, DropResult} from 'react-beautiful-dnd';
 import {toDoState} from './atoms'
 import { useRecoilState } from 'recoil';
+import DraggableCard from './Components/DraggableCard';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -89,12 +90,6 @@ const Board = styled.div`
  border-radius:5px;
  min-height:200px;
  `;
-const Card = styled.div`
-background-color:${(props)=>props.theme.cardColor};
-padding:10px 10px;
-border-radius:5px;
-margin-bottom:5px;
-`;
 
 
 
@@ -122,13 +117,9 @@ function App() {
           <Droppable droppableId='one'>
             {(magic)=>
             <Board ref={magic.innerRef} {...magic.droppableProps}>{/**draggableId는 고유해야한다. draggableId와 key의 값은 동일해야한다 */}
-              {toDos.map((toDo,index)=><Draggable key={toDo} draggableId={toDo} index={index}>{(magic)=><Card 
-              ref={magic.innerRef}
-              {...magic.draggableProps}
-              {...magic.dragHandleProps}
-              >
-              
-              {toDo}</Card>}</Draggable>)}
+              {toDos.map((toDo,index)=>
+              <DraggableCard key={toDo} toDo={toDo} index={index}/>
+              )}
             
               {magic.placeholder} {/*위치가 중요 Droppable과 Draggable의 사이! */}
             </Board>
