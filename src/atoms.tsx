@@ -8,7 +8,7 @@ interface IToDoState{ // 이렇게 작성하지 않으면 타입스크립트는 
 export const toDoState = atom<IToDoState>({
     key:"toDo",
     default: {
-        to_do:['a','b','c','d','e','f'],
+        "To Do":['a','b','c','d','e','f'],
         doing:['1','2','3','4','5','6'],
         done:['h','i'],
     }

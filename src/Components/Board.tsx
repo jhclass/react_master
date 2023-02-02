@@ -10,28 +10,33 @@ const Wrapper = styled.div`
  `;    
 interface IBoardProps {
     toDos:string[],
-  
+    
     boardId:string
 }
-
+const Title = styled.h2`
+text-align:Center;
+`;
 
 
 function Board({toDos,boardId}:IBoardProps){
     
     return (
-
-        <Droppable droppableId={boardId}>
-            {(magic)=>
-            <Wrapper ref={magic.innerRef} {...magic.droppableProps}>{/**draggableId는 고유해야한다. draggableId와 key의 값은 동일해야한다 */}
-                {toDos.map((toDo,index)=>
-                <DraggableCard key={toDo} toDo={toDo} index={index}/>
-                )}
-            
-                {magic.placeholder} {/*위치가 중요 Droppable과 Draggable의 사이! */}
-            </Wrapper>
-            }
-            
-        </Droppable> 
+        <Wrapper>
+            <Title>{boardId}</Title>
+            <Droppable droppableId={boardId}>
+                {(magic)=>
+                <div ref={magic.innerRef} {...magic.droppableProps}>{/**draggableId는 고유해야한다. draggableId와 key의 값은 동일해야한다 */}
+                    {toDos.map((toDo,index)=>
+                    <DraggableCard key={toDo} toDo={toDo} index={index}/>
+                    )}
+                
+                    {magic.placeholder} {/*위치가 중요 Droppable과 Draggable의 사이! */}
+                </div>
+                }
+        
+                
+            </Droppable> 
+        </Wrapper>
     );
 }
 

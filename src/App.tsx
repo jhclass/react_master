@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
-import {DragDropContext, Draggable, Droppable, DropResult} from 'react-beautiful-dnd';
+import {DragDropContext,  DropResult} from 'react-beautiful-dnd';
 import {toDoState} from './atoms'
 import { useRecoilState } from 'recoil';
 import Board from './Components/Board'
@@ -89,19 +89,30 @@ grid-template-columns: repeat(3,1fr);
 
 function App() {
   const [toDos,setTodos] = useRecoilState(toDoState);
- const onDragEnd = ({draggableId, destination, source}:DropResult)=>{
+ const onDragEnd = (info:DropResult)=>{
+
 //  const oldIndex:any = toDos.splice(source.index,1);
   //toDos.splice(oldIndex,0,destination.index);
-  if(!destination) return;
-  // setTodos((oldToDos)=>{
 
-  //   const copyToDos = [...oldToDos];
-  //   copyToDos.splice(source.index,1);
-  //   copyToDos.splice(destination?.index,0,draggableId);
-  //   return copyToDos;
+ 
 
-  // });
-  console.log('finished',source,destination);
+ const {destination,draggableId,source} = info;
+  if(destination?.droppableId === source.droppableId) {
+    // 같은 보드에서 움직였다면.
+    setTodos((oldToDos)=>{
+
+      const boardCopy = [...oldToDos[source.droppableId]]
+      boardCopy.splice(source.index,1);
+      boardCopy.splice(destination?.index,0,draggableId);
+      return {
+        ...oldToDos,
+        [source.droppableId]:boardCopy
+      };
+
+    });
+  }
+
+  console.log('finished',info);
  };
    
   return (
