@@ -1,8 +1,9 @@
 import { FormEvent, useState } from 'react';
+import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
-
-
+import {DragDropContext, Draggable, Droppable, DropResult} from 'react-beautiful-dnd';
+import {toDoState} from './atoms'
+import { useRecoilState } from 'recoil';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -57,44 +58,86 @@ table {
   border-spacing: 0;
 }
 body {
-  background-color:${props=>props.theme.accentColor};
-  color:${props=>props.theme.textColor};
+  
+  
   font-family: 'Noto Sans KR', sans-serif;
 }
 a {text-decoration:none;}
 *{box-sizing:border-box;}
 `;
 
-function App() {
- const onDragEnd = ()=>{
+const Wrapper = styled.div`
+display:flex;
+max-width:480px;
+width:100%;
+margin:0 auto;
+justify-content: center;
+align-items:center;
+height:100vh;
+`;
 
+const Boards = styled.div`
+display:grid;
+width:100%;
+grid-template-columns: repeat(3,1fr);
+`;
+
+
+const Board = styled.div`
+ background-color:${(props)=>props.theme.boardColor};
+ padding:30px 10px 10px 10px;
+ border-radius:5px;
+ min-height:200px;
+ `;
+const Card = styled.div`
+background-color:${(props)=>props.theme.cardColor};
+padding:10px 10px;
+border-radius:5px;
+margin-bottom:5px;
+`;
+
+
+
+function App() {
+  const [toDos,setTodos] = useRecoilState(toDoState);
+ const onDragEnd = ({draggableId, destination, source}:DropResult)=>{
+//  const oldIndex:any = toDos.splice(source.index,1);
+  //toDos.splice(oldIndex,0,destination.index);
+  if(!destination) return;
+  setTodos((oldToDos)=>{
+
+    const copyToDos = [...oldToDos];
+    copyToDos.splice(source.index,1);
+    copyToDos.splice(destination?.index,0,draggableId);
+    return copyToDos;
+
+  });
+  console.log('finished',source,destination);
  };
    
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div>
-        <Droppable droppableId='one'>
-          {(magic)=>
-          <ul ref={magic.innerRef} {...magic.droppableProps}>
-            <Draggable draggableId="first" index={0}>{(magic)=><li 
-            ref={magic.innerRef}
-            {...magic.draggableProps}
+      <Wrapper>
+        <Boards>
+          <Droppable droppableId='one'>
+            {(magic)=>
+            <Board ref={magic.innerRef} {...magic.droppableProps}>{/**draggableId는 고유해야한다. draggableId와 key의 값은 동일해야한다 */}
+              {toDos.map((toDo,index)=><Draggable key={toDo} draggableId={toDo} index={index}>{(magic)=><Card 
+              ref={magic.innerRef}
+              {...magic.draggableProps}
+              {...magic.dragHandleProps}
+              >
               
-     
-            >
-            <span {...magic.dragHandleProps}>💕</span>
-            One</li>}</Draggable>
-            <Draggable draggableId="seconds" index={1}>{(magic)=><li
-            ref={magic.innerRef} 
-            {...magic.dragHandleProps}
-            {...magic.draggableProps}
-            >Two</li>}
-           
-            </Draggable>
-            {magic.placeholder} {/*위치가 중요 Droppable과 Draggable의 사이! */}
-          </ul>}
-        </Droppable>
-      </div>
+              {toDo}</Card>}</Draggable>)}
+            
+              {magic.placeholder} {/*위치가 중요 Droppable과 Draggable의 사이! */}
+            </Board>
+            }
+            
+          </Droppable>
+        </Boards>
+        
+      </Wrapper>
     </DragDropContext>
   );
 
