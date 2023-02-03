@@ -85,8 +85,6 @@ gap:10px;
 grid-template-columns: repeat(3,1fr);
 `;
 
-
-
 function App() {
   const [toDos,setTodos] = useRecoilState(toDoState);
  const onDragEnd = (info:DropResult)=>{
@@ -94,9 +92,8 @@ function App() {
 //  const oldIndex:any = toDos.splice(source.index,1);
   //toDos.splice(oldIndex,0,destination.index);
 
- 
-
  const {destination,draggableId,source} = info;
+  if(!destination) return; // 이 한줄이 없으면 아래 빨간줄 쫙쫙!
   if(destination?.droppableId === source.droppableId) {
     // 같은 보드에서 움직였다면.
     setTodos((oldToDos)=>{
@@ -108,11 +105,24 @@ function App() {
         ...oldToDos,
         [source.droppableId]:boardCopy
       };
-
     });
   }
-
-  console.log('finished',info);
+  if(destination?.droppableId !== source.droppableId){
+    //다른보드로 이동
+    //setTodos((allBoards)=>{console.log('aa',allBoards);return allBoards}) allBoards 내용확인
+    setTodos((allBoards)=>{
+      const sourceBoard = [...allBoards[source.droppableId]];
+      const destinationBoard = [...allBoards[destination.droppableId]];
+      sourceBoard.splice(source.index,1); //현재위치에서 지우고
+      destinationBoard.splice(destination?.index,0,draggableId); //새로운 위치로 넣는다.
+      return {
+        ...allBoards,
+        [source.droppableId]:sourceBoard,
+        [destination?.droppableId]:destinationBoard
+      }
+    });
+  }
+   console.log('finished',info);
  };
    
   return (
