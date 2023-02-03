@@ -19,7 +19,7 @@ interface IDragabbleCardProps {
 function DraggableCard({key,toDo,index}:IDragabbleCardProps){
     console.log(toDo,index);
     return(
-        <Draggable key={key} draggableId={toDo} index={index}>{(magic)=>
+        <Draggable key={key} draggableId={toDo} index={index}>{(magic,snapshot)=>
             (
             <Card 
             ref={magic.innerRef}
