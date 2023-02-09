@@ -1,4 +1,5 @@
 import React,{useRef} from 'react';
+import {useForm} from 'react-hook-form';
 import { Droppable } from "react-beautiful-dnd"; 
 import styled from "styled-components";
 import DraggableCard from "./DraggableCard";
@@ -31,17 +32,30 @@ background-color:${props=> props.isDraggingOver?"pink":props.isDraggingFromThis?
 flex-grow: 1;
 `;
 
+interface IForm {
+    toDo:string;
+}
+
+const Form = styled.form`
+width:100%;
+padding:20px;
+`;
 
 function Board({toDos,boardId}:IBoardProps){
     const inputRef = useRef<HTMLInputElement>(null);
-    const onClick = ()=>{
-        inputRef.current?.focus();
+    const {register,setValue,handleSubmit} = useForm<IForm>();
+    const onValid = (data:IForm)=>{
+            console.log(data);
+            setValue("toDo","");
     }
+    
     return (
         <Wrapper>
             <Title>{boardId}</Title>
-            <input ref={inputRef} placeholder="Grab me" />
-            <button onClick={onClick}>click me</button>
+            <Form onSubmit={handleSubmit(onValid)}>
+                <input {...register("toDo",{required:true})} type="text" placeholder={`Add task on ${boardId}`}/>
+            </Form>
+       
             <Droppable droppableId={boardId}>
                 {(magic, snapshot)=>
                 <Area 
@@ -55,8 +69,7 @@ function Board({toDos,boardId}:IBoardProps){
                     {magic.placeholder} {/*위치가 중요 Droppable과 Draggable의 사이! */}
                 </Area>
                 }
-        
-                
+           
             </Droppable> 
         </Wrapper>
     );

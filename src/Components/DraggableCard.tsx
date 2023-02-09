@@ -15,7 +15,6 @@ interface IDragabbleCardProps {
     toDo:string,
     index:number,
     key:string
-
 }
 function DraggableCard({key,toDo,index}:IDragabbleCardProps){
     console.log(toDo,index);
