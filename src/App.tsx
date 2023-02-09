@@ -98,9 +98,11 @@ function App() {
     // 같은 보드에서 움직였다면.
     setTodos((oldToDos)=>{
 
-      const boardCopy = [...oldToDos[source.droppableId]]
+      const boardCopy = [...oldToDos[source.droppableId]];
+      const taskObj = boardCopy[source.index];
       boardCopy.splice(source.index,1);
-      boardCopy.splice(destination?.index,0,draggableId);
+      boardCopy.splice(destination?.index,0,taskObj);
+      console.log('a',taskObj);
       return {
         ...oldToDos,
         [source.droppableId]:boardCopy
@@ -112,9 +114,10 @@ function App() {
     //setTodos((allBoards)=>{console.log('aa',allBoards);return allBoards}) allBoards 내용확인
     setTodos((allBoards)=>{
       const sourceBoard = [...allBoards[source.droppableId]];
+      const taskObj = sourceBoard[source.index];
       const destinationBoard = [...allBoards[destination.droppableId]];
       sourceBoard.splice(source.index,1); //현재위치에서 지우고
-      destinationBoard.splice(destination?.index,0,draggableId); //새로운 위치로 넣는다.
+      destinationBoard.splice(destination?.index,0,taskObj); //새로운 위치로 넣는다.
       return {
         ...allBoards,
         [source.droppableId]:sourceBoard,

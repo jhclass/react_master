@@ -3,6 +3,8 @@ import {useForm} from 'react-hook-form';
 import { Droppable } from "react-beautiful-dnd"; 
 import styled from "styled-components";
 import DraggableCard from "./DraggableCard";
+import {ITodo, toDoState} from "../atoms"
+import { useSetRecoilState } from 'recoil';
 
 const Wrapper = styled.div`
  background-color:${(props)=>props.theme.boardColor};
@@ -13,10 +15,10 @@ const Wrapper = styled.div`
  flex-direction:column;
  `;    
 interface IBoardProps {
-    toDos:string[],
-    
+    toDos:ITodo[],
     boardId:string
 }
+
 const Title = styled.h2`
 text-align:Center;
 `;
@@ -42,10 +44,23 @@ padding:20px;
 `;
 
 function Board({toDos,boardId}:IBoardProps){
+    const setToDos = useSetRecoilState(toDoState);
     const inputRef = useRef<HTMLInputElement>(null);
     const {register,setValue,handleSubmit} = useForm<IForm>();
-    const onValid = (data:IForm)=>{
-            console.log(data);
+    const onValid = ({toDo}:IForm)=>{
+        const newToDo = {
+            id:Date.now(),
+            text:toDo
+
+        };
+            console.log(toDo);
+            setToDos(allBoards=>{
+                return {
+                  ...allBoards,
+                  [boardId]:[...allBoards[boardId],newToDo],
+
+                }
+            });
             setValue("toDo","");
     }
     
@@ -63,7 +78,7 @@ function Board({toDos,boardId}:IBoardProps){
                 isDraggingFromThis={Boolean(snapshot.draggingFromThisWith)}
                 ref={magic.innerRef} {...magic.droppableProps}>{/**draggableId는 고유해야한다. draggableId와 key의 값은 동일해야한다 */}
                     {toDos.map((toDo,index)=>
-                    <DraggableCard key={toDo} toDo={toDo} index={index}/>
+                    <DraggableCard key={toDo.id} toDoId={toDo.id} index={index} toDoText={toDo.text}/>
                     )}
                 
                     {magic.placeholder} {/*위치가 중요 Droppable과 Draggable의 사이! */}

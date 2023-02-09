@@ -12,14 +12,16 @@ box-shadow:${props=>props.isDragging?"0px 2px 5px rgba(0,0,0,0.3)":"none"}
 
 
 interface IDragabbleCardProps {
-    toDo:string,
+    toDoId:number,
+    toDoText:string,
     index:number,
-    key:string
+    
+ 
 }
-function DraggableCard({key,toDo,index}:IDragabbleCardProps){
-    console.log(toDo,index);
+function DraggableCard({ toDoId, toDoText, index}:IDragabbleCardProps){
+    console.log(toDoId,index);
     return(
-        <Draggable key={key} draggableId={toDo} index={index}>{(magic,snapshot)=>
+        <Draggable draggableId={toDoId+""} index={index}>{(magic,snapshot)=>
             (
             <Card 
             isDragging={snapshot.isDragging}
@@ -28,7 +30,7 @@ function DraggableCard({key,toDo,index}:IDragabbleCardProps){
             {...magic.dragHandleProps}
             >
             
-            {toDo}</Card>
+            {toDoText}</Card>
             )}
         </Draggable>
     );
