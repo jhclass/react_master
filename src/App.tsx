@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
 import {DragDropContext,  DropResult} from 'react-beautiful-dnd';
 import {toDoState} from './atoms'
-import { useRecoilState } from 'recoil';
+import {atom, useRecoilState } from 'recoil';
 import Board from './Components/Board'
-
+import {useForm} from 'react-hook-form';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;500;700;900&display=swap');
@@ -85,9 +85,19 @@ gap:10px;
 grid-template-columns: repeat(3,1fr);
 `;
 
+interface IAddForm {
+  addBoard:string;
+
+ }
+const AddBoards = atom({
+  key:"addBoard",
+  default:Array(0)
+});
 function App() {
+  const {register,handleSubmit,setValue} = useForm<IAddForm>();
   const [toDos,setTodos] = useRecoilState(toDoState);
- const onDragEnd = (info:DropResult)=>{
+  const [addB,setAddB] = useRecoilState(AddBoards);
+  const onDragEnd = (info:DropResult)=>{
 
 //  const oldIndex:any = toDos.splice(source.index,1);
   //toDos.splice(oldIndex,0,destination.index);
@@ -127,15 +137,35 @@ function App() {
   }
    console.log('finished',info);
  };
-   
+  const addV = ({addBoard}:IAddForm)=>{
+    console.log(addBoard);
+    const realData = addBoard;
+    console.log(realData);
+    setAddB(name=>[...name,realData]);
+    setTodos((allBoards)=>{
+      return {
+        ...allBoards,
+        [realData]:[],
+              
+      }
+    });
+  }
+
+  //console.log('aaaa',addB);
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Wrapper>
-        <Boards>
-          {Object.keys(toDos).map(boardId=><Board boardId={boardId} key={boardId} toDos={toDos[boardId]}/>)}
-        </Boards>
-      </Wrapper>
-    </DragDropContext>
+    <div>
+      <form onSubmit={handleSubmit(addV)}>
+        <input {...register("addBoard",{required:true})} type="text" placeholder='보드추가'/>
+      </form>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Wrapper>
+          <Boards>
+            {Object.keys(toDos).map(boardId=><Board boardId={boardId} key={boardId} toDos={toDos[boardId]}/>)}
+          </Boards>
+        </Wrapper>
+      </DragDropContext>
+    </div>
+    
   );
 
 }
