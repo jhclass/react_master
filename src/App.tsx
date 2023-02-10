@@ -1,9 +1,10 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
 import {DragDropContext,  DropResult} from 'react-beautiful-dnd';
 import {toDoState} from './atoms'
-import {atom, useRecoilState } from 'recoil';
+import {atom,useRecoilState } from 'recoil';
+
 import Board from './Components/Board'
 import {useForm} from 'react-hook-form';
 
@@ -137,7 +138,7 @@ function App() {
   }
    console.log('finished',info);
  };
-  const addV = ({addBoard}:IAddForm)=>{
+  const addV = async({addBoard}:IAddForm)=>{
     console.log(addBoard);
     const realData = addBoard;
     console.log(realData);
@@ -147,13 +148,21 @@ function App() {
         ...allBoards,
         [realData]:[],
               
-      }
+      }//
     });
+    
+    setValue("addBoard","");
   }
-
+  useEffect(()=>{
+    window.sessionStorage.setItem('names',JSON.stringify(addB))
+    window.sessionStorage.setItem('boards',JSON.stringify(toDos))
+    console.log('aa',window.sessionStorage.getItem('names'));
+    console.log('aa',window.sessionStorage.getItem('boards'));
+  },[addB,toDos]);
+ 
   //console.log('aaaa',addB);
   return (
-    <div>
+      <div>
       <form onSubmit={handleSubmit(addV)}>
         <input {...register("addBoard",{required:true})} type="text" placeholder='보드추가'/>
       </form>

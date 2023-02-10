@@ -58,7 +58,7 @@ function Board({toDos,boardId}:IBoardProps){
                 return {
                   ...allBoards,
                   [boardId]:[...allBoards[boardId],newToDo],
-
+                        
                 }
             });
             setValue("toDo","");
