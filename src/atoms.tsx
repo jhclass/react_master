@@ -23,7 +23,10 @@ const sessionStorageEffect =
       confirm
         ? sessionStorage.removeItem(key)
         : sessionStorage.setItem(key, JSON.stringify(newValue));
-    });
+    }
+    
+    );
+    console.log(sessionStorage.getItem(key));
   };
 
 //console.log('aa',sessionStorage.getItem('names'));
@@ -38,3 +41,12 @@ export const toDoState = atom<IToDoState>({
     effects: [sessionStorageEffect("toDo")],
     
 });
+
+export const AddBoards = atom({
+    key:"addBoard",
+    default:["To Do","doing","done"],
+    effects: [sessionStorageEffect("addBoard")]
+    
+  });
+
+  

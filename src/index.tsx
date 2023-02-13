@@ -14,7 +14,7 @@ ReactDOM.render(
       <ThemeProvider theme={darkTheme}>
         <App />
       </ThemeProvider>
-  </RecoilRoot>
+    </RecoilRoot>
     
     
   </React.StrictMode>,
