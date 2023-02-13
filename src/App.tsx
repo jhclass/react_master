@@ -1,3 +1,4 @@
+import React,{useRef} from 'react';
 import styled from 'styled-components';
 import { motion } from "framer-motion";
 
@@ -30,17 +31,27 @@ const boxVariants = {
   
 }
 
-
+const BiggerBox = styled.div`
+width:600px;
+height:600px;
+background: rgba(255,255,255,0.4);
+border-radius: 40px;
+display:flex;
+align-items: center;
+justify-content: center;
+overflow:hidden;
+`;
 
 
 
 function App() {
- 
+  const biggerBoxRef = useRef<HTMLDivElement>(null)
   //console.log('aaaa',addB);
   return (
   <Wrapper>
-    <Box variants={boxVariants} drag whileDrag="drag" dragConstraints={{top:-50,bottom:50,left:-50,right:-50}}  whileHover="hover" whileTap="click"/>
-  
+    <BiggerBox ref={biggerBoxRef }>
+    <Box variants={boxVariants} drag whileDrag="drag" dragConstraints={biggerBoxRef}  whileHover="hover" whileTap="click"/>
+    </BiggerBox>
   </Wrapper>
   
   );
