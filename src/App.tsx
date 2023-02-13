@@ -50,7 +50,7 @@ function App() {
   return (
   <Wrapper>
     <BiggerBox ref={biggerBoxRef }>
-    <Box variants={boxVariants} drag whileDrag="drag" dragConstraints={biggerBoxRef}  whileHover="hover" whileTap="click"/>
+    <Box variants={boxVariants} drag whileDrag="drag" dragSnapToOrigin dragConstraints={biggerBoxRef}  whileHover="hover" whileTap="click"/>
     </BiggerBox>
   </Wrapper>
   
