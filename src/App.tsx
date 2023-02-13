@@ -1,6 +1,6 @@
 
 import styled,{createGlobalStyle} from 'styled-components';
-
+import { motion } from "framer-motion";
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;500;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
