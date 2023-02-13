@@ -24,7 +24,8 @@ const Box = styled(motion.div)`
 `;
 
 const boxVariants = {
-  
+  hover:{scale:2,rotateZ:90,transition:{duration:.3}},
+  click:{scale:1,borderRadius:"100%"},
   
 }
 
@@ -34,12 +35,10 @@ const boxVariants = {
 
 function App() {
  
-
- 
   //console.log('aaaa',addB);
   return (
   <Wrapper>
-    <Box />
+    <Box variants={boxVariants} whileHover="hover" whileTap="click"/>
   
   </Wrapper>
   
