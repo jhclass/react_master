@@ -1,6 +1,6 @@
-import React,{useRef} from 'react';
+import React,{useEffect, useRef} from 'react';
 import styled from 'styled-components';
-import { motion } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 
 const Wrapper = styled.div`
   display: flex;
@@ -45,12 +45,18 @@ overflow:hidden;
 
 
 function App() {
-  const biggerBoxRef = useRef<HTMLDivElement>(null)
+  const x = useMotionValue(0);
+  console.log('aa',x); // 한번만 딱 찍힌다(리랜더링 되지 않아).. 그래서 useEffect를 사용해야해
+  useEffect(()=>{
+   console.log(x.get());
+   
+    
+  },[x]);
   //console.log('aaaa',addB);
   return (
   <Wrapper>
     
-    <Box variants={boxVariants} drag="x"  dragSnapToOrigin/>
+    <Box style={{x}} variants={boxVariants} drag="x"  dragSnapToOrigin/>
     
   </Wrapper>
   
