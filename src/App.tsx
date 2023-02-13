@@ -33,18 +33,31 @@ const Circle = styled(motion.div)`
 `;
 
 const boxVariants = {
-  start:{scale:0,opaity:0},
-  end:{scale:1,opaity:1,
+  start:{scale:0,opacity:0},
+  end:{scale:1,opacity:1,
     transition:{
       duration:0.5,type:"spring",bounce:0.5,
-      staggerChildren:0.2,
       delayChildredn:0.5,
+      staggerChildren:0.5,
+      
       
     }
  },
   
 }
 
+const childrenVarients = {
+  start:{
+    opacity:0,
+    y:-10,
+    
+  },
+  end:{
+    opacity:1,
+    y:0,
+    transition:{duration:1}
+  },
+}
 
 
 
@@ -56,8 +69,10 @@ function App() {
   return (
   <Wrapper>
     <Box variants={boxVariants} initial="start" animate="end">
-      <Circle />
-      
+      <Circle variants={childrenVarients}/>
+      <Circle variants={childrenVarients}/>
+      <Circle variants={childrenVarients}/>
+      <Circle variants={childrenVarients}/>
       
     </Box>
 
