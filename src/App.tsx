@@ -1,6 +1,6 @@
 import React,{useEffect, useRef} from 'react';
 import styled from 'styled-components';
-import { motion, useMotionValue } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,6 +29,7 @@ const boxVariants = {
   click:{scale:1,borderRadius:"100%"},
   
   
+  
 }
 
 const BiggerBox = styled.div`
@@ -46,20 +47,22 @@ overflow:hidden;
 
 function App() {
   const x = useMotionValue(0);
-  console.log('aa',x); // 한번만 딱 찍힌다(리랜더링 되지 않아).. 그래서 useEffect를 사용해야해
+  const scale= useTransform(x,[-800,0,800],[2,1,0.1]);
+  //console.log('aa',x); // 한번만 딱 찍힌다(리랜더링 되지 않아).. 그래서 useEffect를 사용해야해
   useEffect(()=>{
-   console.log(x.get());
-   
-    
+
+   //console.log(xTransform.get());
+    scale.onChange(()=>{
+      //console.log(x.get());
+      console.log(scale.get());
+    });
   },[x]);
   //console.log('aaaa',addB);
   return (
-  <Wrapper>
+    <Wrapper>
+      <Box style={{x,scale}} variants={boxVariants} drag="x"  dragSnapToOrigin/>
+    </Wrapper>
     
-    <Box style={{x}} variants={boxVariants} drag="x"  dragSnapToOrigin/>
-    
-  </Wrapper>
-  
   );
 
 }
