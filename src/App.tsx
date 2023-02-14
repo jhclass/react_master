@@ -2,7 +2,7 @@ import React,{useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   display: flex;
   height: 100vh;
   width: 100vw;
@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-image:linear-gradient(135deg,#e09,#d0e);
 `;
 
 const Box = styled(motion.div)`
@@ -47,22 +48,30 @@ overflow:hidden;
 
 function App() {
   const x = useMotionValue(0);
-  const scale= useTransform(x,[-800,0,800],[2,1,0.1]);
+  const rotateZ = useTransform(x,[-800,800],[360,-360]);
+  const gradient = useTransform(x,[-800,0,800],[
+    'linear-gradient(135deg,#ab00ee,#1000ee)',
+    'linear-gradient(135deg,#e09,#ee0034)',
+    'linear-gradient(135deg,#00eee2,#87ee00)'
+  ]);
+  
   //console.log('aa',x); // 한번만 딱 찍힌다(리랜더링 되지 않아).. 그래서 useEffect를 사용해야해
   useEffect(()=>{
 
-   //console.log(xTransform.get());
-    scale.onChange(()=>{
+   //console.log(rotateZ.get());
+    rotateZ.onChange(()=>{
       //console.log(x.get());
-      console.log(scale.get());
+      console.log(rotateZ.get());
     });
   },[x]);
   //console.log('aaaa',addB);
   return (
-    <Wrapper>
-      <Box style={{x,scale}} variants={boxVariants} drag="x"  dragSnapToOrigin/>
-    </Wrapper>
+  <Wrapper style={{background:gradient}}>
     
+    <Box style={{x,rotateZ}} variants={boxVariants} drag="x"  dragSnapToOrigin/>
+    
+  </Wrapper>
+  
   );
 
 }

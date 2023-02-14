@@ -60,7 +60,7 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
    color:black;
   line-height: 1.2;
-  background-image:linear-gradient(135deg,#e09,#d0e);
+  
   
 }
 a {text-decoration:none;}
