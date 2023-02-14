@@ -1,16 +1,16 @@
-import React,{useEffect, useRef} from 'react';
+import React,{useEffect} from 'react';
 import styled from 'styled-components';
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
 
 const Wrapper = styled(motion.div)`
   display: flex;
-  height: 100vh;
+  height: 200vh;
   width: 100vw;
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+
   background-image:linear-gradient(135deg,#e09,#d0e);
 `;
 
@@ -33,16 +33,6 @@ const boxVariants = {
   
 }
 
-const BiggerBox = styled.div`
-width:600px;
-height:600px;
-background: rgba(255,255,255,0.4);
-border-radius: 40px;
-display:flex;
-align-items: center;
-justify-content: center;
-overflow:hidden;
-`;
 
 
 
@@ -54,22 +44,17 @@ function App() {
     'linear-gradient(135deg,#e09,#ee0034)',
     'linear-gradient(135deg,#00eee2,#87ee00)'
   ]);
-  
+ 
+  const {scrollYProgress} = useScroll();
+  const scale = useTransform(scrollYProgress,[0,1],[1,5]); 
   //console.log('aa',x); // 한번만 딱 찍힌다(리랜더링 되지 않아).. 그래서 useEffect를 사용해야해
   useEffect(()=>{
-
-   //console.log(rotateZ.get());
-    rotateZ.onChange(()=>{
-      //console.log(x.get());
-      console.log(rotateZ.get());
-    });
-  },[x]);
+   scrollYProgress.onChange(()=>console.log(scrollYProgress.get()));
+  },[scrollYProgress]);
   //console.log('aaaa',addB);
   return (
   <Wrapper style={{background:gradient}}>
-    
-    <Box style={{x,rotateZ}} variants={boxVariants} drag="x"  dragSnapToOrigin/>
-    
+    <Box style={{x,rotateZ, scale:scale}} variants={boxVariants} drag="x"  dragSnapToOrigin/>
   </Wrapper>
   
   );
