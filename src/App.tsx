@@ -31,41 +31,49 @@ const Box = styled(motion.div)`
 
 
 const box = {
-  invisible:{
-    x:500,
+  invisible:(back:boolean)=>({
+    x:(back?-500:500),
     opacity:0,
     scale:0,
-  },
-  visible:{
+  }),
+  visible:(back:boolean)=>({
     x:0,
     opacity:1,
     scale:1
-  },
-  exit:{
-    x:-500,
+  }),
+  exit:(back:boolean)=>({
+    x:(back?500:-500),
     opacity:0,
     scale:0
-  },
+  }),
 }
 
 
 function App() {
  const [visible,setVisible] = useState(1);
- const next = () => setVisible((prev)=>(prev===9 ? 0:prev+1));
+ const [back,setBack] = useState(false);
+ const next = () => {
+  setBack(false);
+  setVisible((next)=>(next===9 ? 0: next+1))};
+ const prev = () => {
+  setBack(true);
+  setVisible((prev)=>(prev===0 ? 9: prev-1))};
 
   return (
   <Wrapper>
-    <AnimatePresence>
-      {[0,1,2,3,4,5,6,7,8,9].map((t,i)=>
-        visible===i?<Box 
+    <AnimatePresence custom={back}>
+      
+       <Box 
+        custom={back}
         variants={box}
         initial="invisible"
         animate="visible"
         exit="exit"
-        key={i}>{i}</Box>:null)
-      }
+        key={visible}>{visible}</Box>
+      
     </AnimatePresence>
     <button onClick={next}>next</button>
+    <button onClick={prev}>prev</button>
   </Wrapper>
   );
 
