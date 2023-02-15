@@ -61,6 +61,7 @@ function App() {
 
   return (
   <Wrapper>
+    {/**mode="wait" 를 쓰면 exit 과 애니메이트가 동시에 일어나는 현상을 나눠서 실행할 수 있다. */}
     <AnimatePresence custom={back}>
       
        <Box 
