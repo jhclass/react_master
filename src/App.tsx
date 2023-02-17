@@ -1,8 +1,7 @@
-import React,{useEffect,useState} from 'react';
+import { BrowserRouter as Router,Switch,Route } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion, useMotionValue, useTransform, useScroll, AnimatePresence, animate } from "framer-motion";
-import { useSetRecoilState } from 'recoil';
-import { exit } from 'process';
+
+
 
 
 const Wrapper = styled(motion.div)`
@@ -55,30 +54,8 @@ const Overlay = styled(motion.div)`
 `;
 
 function App() {
-  const [clicked,setClicked] = useState(false);
-  const toggleClicked = ()=>setClicked((prev) => !prev);
-  const [id,setId] = useState<null|string>(null);
-  console.log(id)
-  return (
-  <Wrapper onClick={toggleClicked}>
-    <Grid>
-     {['1','2','3','4'].map((t,i)=><Box onClick={()=>{setId(t);}} key={t} layoutId={`box${t}`}/>)}
-    </Grid>
-    <AnimatePresence>
-      {clicked&&id!=null?
-      <Overlay onClick={()=> setId(null)}
-        initial={{backgroundColor:"rgba(0,0,0,0)"}} 
-        animate={{backgroundColor:"rgba(0,0,0,0.7)",transition:{duration:0.4}}} 
-        exit={{opacity:0}}
-      >
-          {id!=null?<Box layoutId={`box${id}`} style={{width:"400px", height:"200px"}}/>:null}
-      
-          
-      </Overlay>:null
-      }
-    </AnimatePresence>
-  </Wrapper>
-  );
+  
+  return null;
 
 }
 
