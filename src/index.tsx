@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import {RecoilRoot} from "recoil";
 import App from './App';
 import { ThemeProvider,createGlobalStyle } from 'styled-components';
-import { darkTheme } from './theme';
+import { theme } from './theme';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;500;700;900&display=swap');
@@ -72,7 +72,7 @@ ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
      
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={theme}>
         <GlobalStyle/>
         <App />
       </ThemeProvider>
