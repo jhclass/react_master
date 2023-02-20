@@ -1,9 +1,10 @@
 import {Link, useRouteMatch} from 'react-router-dom';
 import styled from 'styled-components';
-import {motion,useAnimation, useAnimationControls} from 'framer-motion';
-import {useState} from 'react';
+import {motion,useAnimation, useScroll} from 'framer-motion';
+import {useEffect, useState} from 'react';
+import { readBuilderProgram } from 'typescript';
 
-const Nav = styled.nav`
+const Nav = styled(motion.nav)`
 padding:0 20px;
 box-sizing:border-box;
 width:100%;
@@ -45,12 +46,12 @@ display:flex;
 justify-content: center;
 flex-direction: column;
 cursor: pointer;
-color:${props=>props.theme.white.darker};
+
 &:hover {
     color:${props=>props.theme.white.lighter};
 }
 a {
-    color:${props=>props.theme.white.lighter};
+    color:${props=>props.theme.white.darker};
     &:hover {
         color:${props=>props.theme.red};
     }
@@ -103,11 +104,29 @@ const logoVariants = {
 }
 
 
+const navVariants = {
+    top : { backgroundColor:"rgba(0,0,0,0)" }, // color는 적용안됨 
+    scroll:{ backgroundColor:"rgba(0,0,0,0.8)" }
+}
+
+
 function Header(){
     const [searchOpen, setSearchOpen] = useState(false);
     const homeMatch = useRouteMatch("/");
     const tvMatch = useRouteMatch("/tv");
     const inputAnimation = useAnimation();
+    const navAnimation = useAnimation();
+    const {scrollY} = useScroll();
+    useEffect(()=>{
+        scrollY.onChange(()=>{
+        if(scrollY.get()>80){
+          
+            navAnimation.start("scroll");
+        }else{
+            navAnimation.start("top");
+        }
+        })
+    },[scrollY,navAnimation]);
     const toggleSearch = ()=> {
         if(searchOpen){
             //서치바 닫기
@@ -123,7 +142,7 @@ function Header(){
     }
     console.log('a',homeMatch,'b',tvMatch);
     return (
-        <Nav>
+        <Nav variants={navVariants} initial="top" animate={navAnimation}>
             <Col>
                 <Logo
                 variants={logoVariants}
