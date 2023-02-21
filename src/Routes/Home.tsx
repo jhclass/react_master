@@ -4,6 +4,7 @@ import {getMovies, IMovie} from '../api';
 import styled from 'styled-components';
 import { makeImagePath } from '../Utils';
 import {motion,AnimatePresence, useUnmountEffect} from 'framer-motion';
+import useWindowDimensions from '../useWindowDimensions';
 const Wrapper = styled.div`
     background-color: black;
 `;
@@ -42,15 +43,13 @@ const Slider = styled(motion.div)`
 const Row = styled(motion.div)`
     display:grid;
     grid-template-columns: repeat(6,1fr);
-    gap:10px;
+    gap:5px;
     width:100%;
-    
-    position: absolute;
-    background-color:black;
-    padding: 0 0px 10px;
-   
-  
 
+    position: absolute;
+    background-color:red;
+    padding: 0 0px 10px;
+    
 `;
 
 const Box = styled(motion.div)`
@@ -61,21 +60,18 @@ const Box = styled(motion.div)`
 `;
 
 console.log(window.innerWidth+100)
-const rowVariants = {
-    hidden : {
-        x: window.outerWidth +10,
-
-    },
-    visible : {x:0},
-    exit : {x:-(window.outerWidth -10)},
-} 
-
 
 function Home() {
     const {data,isLoading} = useQuery<IMovie>(['movies','nowPlaying'],getMovies);
     const [index,setIndex] = useState(0);
-    const increaseIndex = ()=> setIndex(prev=>prev+1);
-
+    const [leaving,setLeaving] = useState(false);
+    const increaseIndex = ()=> {
+        if (leaving) return;
+        toggleLeaving();
+        setIndex(prev=>prev+1);
+    };
+    const toggleLeaving = ()=> setLeaving((prev)=>!prev);
+    const width = useWindowDimensions();
     console.log(data,data?.title);
     console.log('모니터 회전여부',window.matchMedia('(orientation: landscape)').matches)
  
@@ -86,13 +82,18 @@ function Home() {
     :
     (
     <>
-        <Banner bgPhoto={makeImagePath(data?.backdrop_path||"")}>
+        <Banner onClick={increaseIndex} bgPhoto={makeImagePath(data?.backdrop_path||"")}>
             <Title>{data?.title}</Title>
             <Overview>{data?.overview}</Overview>
         </Banner>
         <Slider>
-            <AnimatePresence >
-                <Row onClick={increaseIndex} variants={rowVariants} initial="hidden" animate="visible" exit="exit" transition={{type:"tween",duration:0.6}} key={index}>
+            {/*
+             * initial={false} 안쓰면 animate가 되는 상태로 시작한다. 
+             * onExitComplete 는 exit 중인 모든 노드들이 애니메이션을 끝내면 실행되게 해줍니다. 
+             * 
+             */}
+            <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+                <Row initial={{ x: width + 10 }} animate={{ x: 0 }} exit={{ x: -width - 10 }} transition={{type:"tween",duration:1}} key={index}>
                     {[0,1,2,3,4,5].map((i)=><Box key={i}>{i}</Box>)}
                 </Row>
             </AnimatePresence>
