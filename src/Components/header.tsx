@@ -13,9 +13,9 @@ justify-content: space-between;
 align-items: center;
 position:fixed;
 top:0;
-background-color:Red;
+
 height:80px;
-background-color: black;
+background-image: linear-gradient(rgba(0,0,0,1),rgba(0,0,0,0));
 `;
 
 const Col = styled.div`
@@ -105,8 +105,8 @@ const logoVariants = {
 
 
 const navVariants = {
-    top : { backgroundColor:"rgba(0,0,0,0)" }, // color는 적용안됨 
-    scroll:{ backgroundColor:"rgba(0,0,0,0.8)" }
+    top : { backgroundImage:"linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0))" }, // color는 적용안됨 
+    scroll:{ backgroundImage:"linear-gradient(rgba(0,0,0,1),rgba(0,0,0,0))" }
 }
 
 

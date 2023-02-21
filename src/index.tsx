@@ -62,6 +62,7 @@ body {
    color:black;
   line-height: 1.2;
   color:${props=>props.theme.white.darker};
+  overflow-x:hidden;
   
 }
 a {text-decoration:none;}

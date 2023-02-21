@@ -1,5 +1,4 @@
 import { BrowserRouter as Router,Switch,Route } from 'react-router-dom';
-import styled from 'styled-components';
 import Home from './Routes/Home';
 import Search from './Routes/Search';
 import Tv from './Routes/Tv';
