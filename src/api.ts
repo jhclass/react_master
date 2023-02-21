@@ -8,10 +8,23 @@ export interface IMovie {
     title:string,
     overview:string,
 
+}
+
+export interface IMovieList {
+    id:number,
+    name:string,
+    poster_path:string,
+    item_count:number,
+    description:string,
 
 }
 
 export function getMovies() {
     return fetch(`${BASE_PATH}/movie/490?api_key=${API_KEY}`)
+    .then((res)=> {return res.json()})
+}
+
+export function getMoviesList() {
+    return fetch(`${BASE_PATH}/movie/490/lists?api_key=${API_KEY}&page=1`)
     .then((res)=> {return res.json()})
 }

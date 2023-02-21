@@ -1,9 +1,9 @@
 import {useState,useEffect} from 'react';
 import {useQuery} from 'react-query';
-import {getMovies, IMovie} from '../api';
+import {getMovies, IMovie,getMoviesList,IMovieList} from '../api';
 import styled from 'styled-components';
 import { makeImagePath } from '../Utils';
-import {motion,AnimatePresence, useUnmountEffect} from 'framer-motion';
+import {motion,AnimatePresence} from 'framer-motion';
 import useWindowDimensions from '../useWindowDimensions';
 const Wrapper = styled.div`
     background-color: black;
@@ -59,12 +59,14 @@ const Box = styled(motion.div)`
     font-size:64px;
 `;
 
-console.log(window.innerWidth+100)
+console.log(window.innerWidth+100);
 
 function Home() {
-    const {data,isLoading} = useQuery<IMovie>(['movies','nowPlaying'],getMovies);
+    const {data,isLoading,isError} = useQuery<IMovie>(['movies','nowPlaying','nowError'],getMovies); // isLoading 은 한번만 되는가
+    const list = useQuery<IMovieList>('list',getMoviesList);
     const [index,setIndex] = useState(0);
     const [leaving,setLeaving] = useState(false);
+    
     const increaseIndex = ()=> {
         if (leaving) return;
         toggleLeaving();
@@ -72,6 +74,7 @@ function Home() {
     };
     const toggleLeaving = ()=> setLeaving((prev)=>!prev);
     const width = useWindowDimensions();
+    console.log('a',list);
     console.log(data,data?.title);
     console.log('모니터 회전여부',window.matchMedia('(orientation: landscape)').matches)
  
