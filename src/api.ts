@@ -24,7 +24,13 @@ export function getMovies() {
     .then((res)=> {return res.json()})
 }
 
-export function getMoviesList() {
-    return fetch(`${BASE_PATH}/movie/490/lists?api_key=${API_KEY}&page=1`)
-    .then((res)=> {return res.json()})
+// export function getMoviesList() {
+//     return fetch(`${BASE_PATH}/movie/490/lists?api_key=${API_KEY}&page=1`)
+//     .then((res)=> {return res.json()})
+// }
+
+export const getMoviesList = async()=>{
+  const res = await fetch(`${BASE_PATH}/movie/490/lists?api_key=${API_KEY}&page=1`)
+  const json = await res.json();
+  return json;
 }
