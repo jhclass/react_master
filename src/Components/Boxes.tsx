@@ -53,7 +53,7 @@ interface iMovieImages {
     index:number,
 }
 function Boxes ({id,title,description,index}:iMovieImages) {
-   
+
    const {data,isLoading} = useQuery<IImages>(['images','checkLoading'],getMovieImages);
    const history = useHistory();
    //console.log(bigMovieMatch);

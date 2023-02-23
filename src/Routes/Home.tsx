@@ -4,7 +4,7 @@ import { useHistory,useRouteMatch } from 'react-router';
 import {getMovies, IMovie,getMoviesList,IMovieList} from '../api';
 import styled from 'styled-components';
 import { makeImagePath } from '../Utils';
-import {motion,AnimatePresence} from 'framer-motion';
+import {motion,AnimatePresence,useScroll} from 'framer-motion';
 import useWindowDimensions from '../useWindowDimensions';
 import Boxes from '../Components/Boxes'
 const Wrapper = styled.div`
@@ -47,10 +47,10 @@ const Row = styled(motion.div)`
     position: absolute;
     background-color:black;
     padding: 0 0px 10px;
-    
 `;
+
 const Overlay = styled(motion.div)`
-    position:absolute;
+    position:fixed;
     top:0;
     left:0;
     width:100%;
@@ -59,11 +59,22 @@ const Overlay = styled(motion.div)`
     opacity:0;
 `;
 
+const BigMovie = styled(motion.div)`
+ position : absolute;
+ width:40vw;
+ height:80vh;
 
+ left:0;
+ right:0;
+ margin:0 auto;
+`;
 
 console.log(window.innerWidth+100);
 
+
+
 function Home() {
+    const {scrollY} = useScroll();
     const {data,isLoading,isError} = useQuery<IMovie>(['movies','nowPlaying','nowError'],getMovies); // isLoading 은 한번만 되는가
     const list = useQuery<IMovieList>('list',getMoviesList);
     const [index,setIndex] = useState(0);
@@ -79,6 +90,7 @@ function Home() {
         const maxIndex = Math.ceil(totalMovie!/offset) -1;
         setIndex(prev=>prev === maxIndex ? 0 : prev+1);
     };
+    console.log(scrollY);
     const toggleLeaving = ()=> setLeaving((prev)=>!prev);
     const width = useWindowDimensions();
     console.log('a',list.data?.results);
@@ -117,8 +129,8 @@ function Home() {
         <AnimatePresence>
             {bigMovieMatch?
             <>
-            <Overlay onClick={onOverlayClick} animate={{opacity:1}}></Overlay>
-            <motion.div layoutId={bigMovieMatch.params.movieId} style={{position:"absolute",width:"40vw",height:"80vh",backgroundColor:"red", top:50, left:0, right:0, margin:"0 auto"}}></motion.div>
+            <Overlay onClick={onOverlayClick} animate={{opacity:1}} exit={{opacity:0}}></Overlay>
+            <BigMovie layoutId={bigMovieMatch.params.movieId} style={{top:scrollY.get()+50}}>hello</BigMovie>
             </>:null}
         </AnimatePresence>
     </>
