@@ -49,6 +49,15 @@ const Row = styled(motion.div)`
     padding: 0 0px 10px;
     
 `;
+const Overlay = styled(motion.div)`
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.5);
+    opacity:0;
+`;
 
 
 
@@ -75,7 +84,9 @@ function Home() {
     console.log('a',list.data?.results);
     console.log(data,data?.title);
     console.log('모니터 회전여부',window.matchMedia('(orientation: landscape)').matches)
-    
+
+    const history = useHistory();
+    const onOverlayClick = () => history.push('/');
     return <Wrapper>{isLoading?
     (
     <Loader>Loading...</Loader>
@@ -104,7 +115,11 @@ function Home() {
             </AnimatePresence>
         </Slider>
         <AnimatePresence>
-            {bigMovieMatch?<motion.div layoutId={bigMovieMatch.params.movieId} style={{position:"absolute",width:"40vw",height:"80vh",backgroundColor:"red", top:50, left:0, right:0, margin:"0 auto"}}></motion.div>:null}
+            {bigMovieMatch?
+            <>
+            <Overlay onClick={onOverlayClick} animate={{opacity:1}}></Overlay>
+            <motion.div layoutId={bigMovieMatch.params.movieId} style={{position:"absolute",width:"40vw",height:"80vh",backgroundColor:"red", top:50, left:0, right:0, margin:"0 auto"}}></motion.div>
+            </>:null}
         </AnimatePresence>
     </>
     )}</Wrapper>
