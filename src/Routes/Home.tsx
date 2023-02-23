@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {useQuery} from 'react-query';
+import { useHistory,useRouteMatch } from 'react-router';
 import {getMovies, IMovie,getMoviesList,IMovieList} from '../api';
 import styled from 'styled-components';
 import { makeImagePath } from '../Utils';
@@ -58,6 +59,9 @@ function Home() {
     const list = useQuery<IMovieList>('list',getMoviesList);
     const [index,setIndex] = useState(0);
     const [leaving,setLeaving] = useState(false);
+   
+    const bigMovieMatch = useRouteMatch<{movieId:string}>("/movies/:movieId");
+    console.log('aaaa',bigMovieMatch);
     const offset = 6;
     const increaseIndex = ()=> {
         if (leaving) return;
@@ -99,6 +103,9 @@ function Home() {
                 </Row>
             </AnimatePresence>
         </Slider>
+        <AnimatePresence>
+            {bigMovieMatch?<motion.div layoutId={bigMovieMatch.params.movieId} style={{position:"absolute",width:"40vw",height:"80vh",backgroundColor:"red", top:50, left:0, right:0, margin:"0 auto"}}></motion.div>:null}
+        </AnimatePresence>
     </>
     )}</Wrapper>
 }

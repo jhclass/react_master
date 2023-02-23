@@ -4,9 +4,10 @@ import {motion} from 'framer-motion';
 import {getMovieImages,IImages} from '../api';
 import { makeImagePath } from '../Utils';
 import { Tween } from 'jquery';
+import { useHistory, useRouteMatch } from 'react-router';
 
 const Box = styled(motion.div)<{bgImage:string}>`
-position:relative;
+
 background-image: url(${props=>props.bgImage});
 background-size:cover;
 height:250px;
@@ -40,7 +41,8 @@ const boxVariants = {
 const infoVariants = {
    
     hover:{
-        opacity:1
+        opacity:1,
+        transition:{delay:0.3,type:Tween}
     }
 }
 
@@ -51,17 +53,24 @@ interface iMovieImages {
     index:number,
 }
 function Boxes ({id,title,description,index}:iMovieImages) {
+   
    const {data,isLoading} = useQuery<IImages>(['images','checkLoading'],getMovieImages);
-   //console.log(data);
+   const history = useHistory();
+   //console.log(bigMovieMatch);
+   const onBoxClicked = (movieId:number)=>{
+    history.push(`/movies/${movieId}`);
+   }
+   //console.log('무비',id);
     return (
         <Box
+        layoutId={id+""}
         bgImage={makeImagePath(data?.backdrops[index].file_path||"","w500")}
         variants={boxVariants}
         initial="normal"
         whileHover="hover"
         transition={{type:"tween"}}
-       
-        >{/**이렇게 했더니 하위요소에 상속이 안되네.. */}
+        onClick={()=>onBoxClicked(id)}
+        >
             <Info variants={infoVariants}> 
                 <h4>{title}</h4>
             </Info>
