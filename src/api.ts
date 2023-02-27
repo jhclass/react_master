@@ -31,6 +31,19 @@ export interface IMovieList {
     results:IMoveListResult[],
 }
 
+export interface ISearch {
+    adult:boolean,
+    id:number,
+    overview:string,
+    media_type:string,
+    vote_average:number,
+    vote_count:number,
+    
+}
+export interface ISearchList {
+    results:ISearch[];
+}
+
 export function getMovies() {
     return fetch(`${BASE_PATH}/movie/${ID}?api_key=${API_KEY}`)
     .then((res)=> {return res.json()})
@@ -52,5 +65,16 @@ export const getMovieImages = async()=>{
     const res = await fetch(`${BASE_PATH}/movie/${ID}/images?api_key=${API_KEY}`)
     const json = await res.json();
     return json;
+}
+
+export const getSearchData = async(searchData:string)=>{
+    //https://api.themoviedb.org/3/search/multi?api_key=fdb92a7a5d8f09c641fc070433aaa9b1&query=dune&language=en-US&page=1&include_adult=false
+    const res = await fetch(`${BASE_PATH}/search/multi?api_key=${API_KEY}&query=${searchData}&page=1&include_adult=false`)
+    const json = await res.json();
+    return json;
   }
+
+
+
+
 
