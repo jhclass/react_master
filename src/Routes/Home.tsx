@@ -112,7 +112,7 @@ function Home() {
     const toggleLeaving = ()=> setLeaving((prev)=>!prev);
     const width = useWindowDimensions();
     console.log('a',list.data?.results);
-    console.log(data,data?.title);
+   
     console.log('모니터 회전여부',window.matchMedia('(orientation: landscape)').matches)
 
     const history = useHistory();
@@ -141,7 +141,7 @@ function Home() {
              */}
             <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
                 <Row initial={{ x: width + 10 }} animate={{ x: 0 }} exit={{ x: -width - 10 }} transition={{type:"tween",duration:1}} key={index}>
-                    {list.data?.results.slice(offset*index,offset*index+offset).map((datas,i)=><Boxes id={datas.id} title={datas.title} description={datas.overview} index={i} imgPath={datas.backdrop_path} key={i}/>)}
+                    {list.data?.results.slice(offset*index,offset*index+offset).map((datas,i)=><Boxes id={datas.id} title={datas.title} description={datas.overview} index={i} imgPath={datas.backdrop_path} key={i} category="movies"/>)}
                 </Row>
             </AnimatePresence>
         </Slider>

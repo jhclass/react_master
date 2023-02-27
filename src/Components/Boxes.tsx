@@ -55,15 +55,21 @@ interface iMovieImages {
     title:string,
     description:string,
     index:number,
-    imgPath:string
+    imgPath:string,
+    category:string,
 }
-function Boxes ({id,title,description,index,imgPath}:iMovieImages) {
+function Boxes ({id,title,description,index,imgPath,category}:iMovieImages) {
 
    const {data,isLoading} = useQuery<IMovieList>(['images','checkLoading'],getMoviesList);
    const history = useHistory();
    console.log('팝',data);
-   const onBoxClicked = (movieId:number)=>{
-    history.push(`/movies/${movieId}`);
+   const bigMovieMatch = useRouteMatch<{id:string}>("/tv/:tvId");
+   console.log('라우터매치',bigMovieMatch);
+   const onBoxClicked = (playId:number)=>{
+    // if (bigMovieMatch=="/movies/:movieId"){
+        history.push(`/${category}/${playId}`);
+    // }
+    
    }
    //console.log('무비',id);
     return (

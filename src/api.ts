@@ -15,13 +15,24 @@ interface IMoveListResult {
     item_count:number,
     overview:string,
     backdrop_path:string,
-    
+    category:string,
+}
+
+
+interface ITvListResult {
+    id:number,
+    title:string,
+    poster_path:string,
+    item_count:number,
+    overview:string,
+    backdrop_path:string,
+    name:string,
+    category:string,
 }
 interface IImagesPath{
     id:number,
     file_path:string,
     title:string,
-    
 }
 export interface IImages {
     posters:IImagesPath[],
@@ -30,7 +41,9 @@ export interface IImages {
 export interface IMovieList {
     results:IMoveListResult[],
 }
-
+export interface ITvList {
+    results:ITvListResult[],
+}
 export interface ISearch {
     adult:boolean,
     id:number,
@@ -38,7 +51,6 @@ export interface ISearch {
     media_type:string,
     vote_average:number,
     vote_count:number,
-    
 }
 export interface ISearchList {
     results:ISearch[];
@@ -61,20 +73,20 @@ export const getMoviesList = async()=>{
   return json;
 }
 
+export const getTvList = async()=>{
+    const res = await fetch(`${BASE_PATH}/tv/popular?api_key=${API_KEY}&page=1`)
+    const json = await res.json();
+    return json;
+}
+
 export const getMovieImages = async()=>{
     const res = await fetch(`${BASE_PATH}/movie/${ID}/images?api_key=${API_KEY}`)
     const json = await res.json();
     return json;
 }
-
 export const getSearchData = async(searchData:string)=>{
     //https://api.themoviedb.org/3/search/multi?api_key=fdb92a7a5d8f09c641fc070433aaa9b1&query=dune&language=en-US&page=1&include_adult=false
     const res = await fetch(`${BASE_PATH}/search/multi?api_key=${API_KEY}&query=${searchData}&page=1&include_adult=false`)
     const json = await res.json();
     return json;
-  }
-
-
-
-
-
+}
