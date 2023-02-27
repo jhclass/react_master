@@ -37,7 +37,7 @@ const Loader = styled.div`
   `;
 const Slider = styled(motion.div)`
     position: relative;
-    top:-300px;
+    top:-100px;
 `;
 const Row = styled(motion.div)`
     display:grid;
@@ -63,10 +63,19 @@ const BigMovie = styled(motion.div)`
  position : absolute;
  width:40vw;
  height:80vh;
-
+ background-color: rgba(0,0,0,0.5);
  left:0;
  right:0;
  margin:0 auto;
+ display:flex;
+ justify-content: center;
+ align-items: center;
+  img {width:50%;}
+`;
+const VideoTitle = styled.h3`
+padding:0 0 30px 60px;
+font-size:30px;
+font-weight:bold;
 `;
 
 console.log(window.innerWidth+100);
@@ -75,12 +84,16 @@ console.log(window.innerWidth+100);
 
 function Home() {
     const {scrollY} = useScroll();
+    
     const {data,isLoading,isError} = useQuery<IMovie>(['movies','nowPlaying','nowError'],getMovies); // isLoading 은 한번만 되는가
     const list = useQuery<IMovieList>('list',getMoviesList);
     const [index,setIndex] = useState(0);
     const [leaving,setLeaving] = useState(false);
-   
     const bigMovieMatch = useRouteMatch<{movieId:string}>("/movies/:movieId");
+    
+    const clickMovie = bigMovieMatch?.params.movieId && 
+    list.data?.results.find((movie)=>movie.id+""===bigMovieMatch.params.movieId);
+    console.log('클릭무비',clickMovie);
     console.log('aaaa',bigMovieMatch);
     const offset = 6;
     const increaseIndex = ()=> {
@@ -90,7 +103,7 @@ function Home() {
         const maxIndex = Math.ceil(totalMovie!/offset) -1;
         setIndex(prev=>prev === maxIndex ? 0 : prev+1);
     };
-    console.log(scrollY);
+    //console.log(scrollY);
     const toggleLeaving = ()=> setLeaving((prev)=>!prev);
     const width = useWindowDimensions();
     console.log('a',list.data?.results);
@@ -108,13 +121,14 @@ function Home() {
     <>
         <Banner 
         onClick={increaseIndex} 
-        bgPhoto={makeImagePath(data?.backdrop_path||"")}
+        bgPhoto={makeImagePath(list.data?.results[0].backdrop_path||"")}
         
         >
-            <Title>{data?.title}</Title>
-            <Overview>{data?.overview}</Overview>
+            <Title>{list.data?.results[0].title}</Title>
+            <Overview>{list.data?.results[0].overview}</Overview>
         </Banner>
         <Slider>
+            <VideoTitle>시청중인 비디오</VideoTitle>
             {/*
              * initial={false} 안쓰면 animate가 되는 상태로 시작한다. 
              * onExitComplete 는 exit 중인 모든 노드들이 애니메이션을 끝내면 실행되게 해줍니다. 
@@ -122,7 +136,7 @@ function Home() {
              */}
             <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
                 <Row initial={{ x: width + 10 }} animate={{ x: 0 }} exit={{ x: -width - 10 }} transition={{type:"tween",duration:1}} key={index}>
-                    {list.data?.results.slice(offset*index,offset*index+offset).map((datas,i)=><Boxes id={datas.id} title={datas.name} description={datas.description} index={i}/>)}
+                    {list.data?.results.slice(offset*index,offset*index+offset).map((datas,i)=><Boxes id={datas.id} title={datas.title} description={datas.overview} index={i} imgPath={datas.backdrop_path}/>)}
                 </Row>
             </AnimatePresence>
         </Slider>
@@ -130,7 +144,15 @@ function Home() {
             {bigMovieMatch?
             <>
             <Overlay onClick={onOverlayClick} animate={{opacity:1}} exit={{opacity:0}}></Overlay>
-            <BigMovie layoutId={bigMovieMatch.params.movieId} style={{top:scrollY.get()+50}}>hello</BigMovie>
+            <BigMovie layoutId={bigMovieMatch.params.movieId} style={{top:scrollY.get()+50}}>
+            {clickMovie&&<>
+                
+                <img src={`https://image.tmdb.org/t/p/original${clickMovie.poster_path}`}/>
+                 {/**https://image.tmdb.org/t/p/${format?format:"original"}/${id}`; */}
+                
+            </>}
+
+            </BigMovie>
             </>:null}
         </AnimatePresence>
     </>

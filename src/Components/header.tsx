@@ -2,7 +2,6 @@ import {Link, useRouteMatch} from 'react-router-dom';
 import styled from 'styled-components';
 import {motion,useAnimation, useScroll} from 'framer-motion';
 import {useEffect, useState} from 'react';
-import { readBuilderProgram } from 'typescript';
 
 const Nav = styled(motion.nav)`
 padding:0 20px;

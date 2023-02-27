@@ -59,10 +59,11 @@ table {
 body {
  font-weight: 300;
   font-family: 'Source Sans Pro', sans-serif;
-   color:black;
+  color:black;
   line-height: 1.2;
   color:${props=>props.theme.white.darker};
   overflow-x:hidden;
+  background:black;
   
 }
 a {text-decoration:none;}

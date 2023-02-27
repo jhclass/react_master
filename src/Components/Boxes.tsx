@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import {useQuery} from 'react-query';
 import {motion} from 'framer-motion';
-import {getMovieImages,IImages} from '../api';
+import {getMoviesList,IMovieList} from '../api';
 import { makeImagePath } from '../Utils';
 import { Tween } from 'jquery';
 import { useHistory, useRouteMatch } from 'react-router';
@@ -25,12 +25,16 @@ cursor: pointer;
 
 const Info = styled(motion.div)`
  padding:20px;
- background-color:${props=>props.theme.black.lighter};
+ background-image:linear-gradient(rgba(0,0,0,1),rgba(0,0,0,0.5));
  opacity: 0;
  position:absolute;
  width:100%;
+ height:100%;
  bottom:0px;
-  h4 {text-align:center; color:#fff; font-size:18px;}
+ display:flex;
+ justify-content: center;
+ align-items: center;
+  h4 {text-align:center; color:#fff; font-size:25px;font-weight:bold;}
 `;
 
 const boxVariants = {
@@ -51,12 +55,13 @@ interface iMovieImages {
     title:string,
     description:string,
     index:number,
+    imgPath:string
 }
-function Boxes ({id,title,description,index}:iMovieImages) {
+function Boxes ({id,title,description,index,imgPath}:iMovieImages) {
 
-   const {data,isLoading} = useQuery<IImages>(['images','checkLoading'],getMovieImages);
+   const {data,isLoading} = useQuery<IMovieList>(['images','checkLoading'],getMoviesList);
    const history = useHistory();
-   //console.log(bigMovieMatch);
+   console.log('팝',data);
    const onBoxClicked = (movieId:number)=>{
     history.push(`/movies/${movieId}`);
    }
@@ -64,7 +69,7 @@ function Boxes ({id,title,description,index}:iMovieImages) {
     return (
         <Box
         layoutId={id+""}
-        bgImage={makeImagePath(data?.backdrops[index].file_path||"","w500")}
+        bgImage={makeImagePath(imgPath||"","w500")}
         variants={boxVariants}
         initial="normal"
         whileHover="hover"

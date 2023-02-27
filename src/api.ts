@@ -10,13 +10,18 @@ export interface IMovie {
 }
 interface IMoveListResult {
     id:number,
-    name:string,
+    title:string,
     poster_path:string,
     item_count:number,
-    description:string,
+    overview:string,
+    backdrop_path:string,
+    
 }
 interface IImagesPath{
+    id:number,
     file_path:string,
+    title:string,
+    
 }
 export interface IImages {
     posters:IImagesPath[],
@@ -38,7 +43,7 @@ export function getMovies() {
 // }
 //변환해보자
 export const getMoviesList = async()=>{
-  const res = await fetch(`${BASE_PATH}/movie/${ID}/lists?api_key=${API_KEY}&page=1`)
+  const res = await fetch(`${BASE_PATH}/movie/popular?api_key=${API_KEY}&page=1`)
   const json = await res.json();
   return json;
 }
