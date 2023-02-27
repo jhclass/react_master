@@ -63,14 +63,19 @@ const BigMovie = styled(motion.div)`
  position : absolute;
  width:40vw;
  height:80vh;
+ overflow-y: auto;
  background-color: rgba(0,0,0,0.5);
  left:0;
  right:0;
  margin:0 auto;
  display:flex;
  justify-content: center;
+ flex-direction: column;
  align-items: center;
-  img {width:50%;}
+ text-align:center;
+    h2 {width:80%; font-size:25px; padding:10px 0 20px 0; font-weight:bold;}
+    img {width:50%;}
+    p {width:80%; padding:20px 20px 10px; font-size:18px; text-align:justify;}
 `;
 const VideoTitle = styled.h3`
 padding:0 0 30px 60px;
@@ -136,7 +141,7 @@ function Home() {
              */}
             <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
                 <Row initial={{ x: width + 10 }} animate={{ x: 0 }} exit={{ x: -width - 10 }} transition={{type:"tween",duration:1}} key={index}>
-                    {list.data?.results.slice(offset*index,offset*index+offset).map((datas,i)=><Boxes id={datas.id} title={datas.title} description={datas.overview} index={i} imgPath={datas.backdrop_path}/>)}
+                    {list.data?.results.slice(offset*index,offset*index+offset).map((datas,i)=><Boxes id={datas.id} title={datas.title} description={datas.overview} index={i} imgPath={datas.backdrop_path} key={i}/>)}
                 </Row>
             </AnimatePresence>
         </Slider>
@@ -146,10 +151,10 @@ function Home() {
             <Overlay onClick={onOverlayClick} animate={{opacity:1}} exit={{opacity:0}}></Overlay>
             <BigMovie layoutId={bigMovieMatch.params.movieId} style={{top:scrollY.get()+50}}>
             {clickMovie&&<>
-                
-                <img src={`https://image.tmdb.org/t/p/original${clickMovie.poster_path}`}/>
+                <h2>{clickMovie.title}</h2>
+                <div><img src={`https://image.tmdb.org/t/p/original${clickMovie.poster_path}`}/></div>
                  {/**https://image.tmdb.org/t/p/${format?format:"original"}/${id}`; */}
-                
+                <p>{clickMovie.overview}</p>
             </>}
 
             </BigMovie>

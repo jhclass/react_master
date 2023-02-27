@@ -1,7 +1,9 @@
-import {Link, useRouteMatch} from 'react-router-dom';
+import {Link, useRouteMatch, useHistory} from 'react-router-dom';
 import styled from 'styled-components';
-import {motion,useAnimation, useScroll} from 'framer-motion';
+import {motion,useAnimation, useScroll, useTransform} from 'framer-motion';
 import {useEffect, useState} from 'react';
+import {useForm} from 'react-hook-form';
+
 
 const Nav = styled(motion.nav)`
 padding:0 20px;
@@ -69,7 +71,7 @@ margin:0 auto;
 background-color:${props=>props.theme.red};
 `;
 
-const Search = styled(motion.span)`
+const Search = styled(motion.div)`
     color:white;
     display:flex;
     align-items: center;
@@ -83,9 +85,13 @@ const Search = styled(motion.span)`
 const Input = styled(motion.input)`
     position:absolute;
     left:-150px;
-    top:0;
+    top:-5px;
     font-size:14px;
+    color:${props=>props.theme.black.veryDark};
     transform-origin: right center;
+    background-color:rgba(255,255,255,0.5);
+    padding:10px;
+    border:1px solid rgba(255,255,255,0.8);
     
 `;
 
@@ -109,6 +115,10 @@ const navVariants = {
 }
 
 
+interface IForm {
+    keyword:string;
+}
+
 function Header(){
     const [searchOpen, setSearchOpen] = useState(false);
     const homeMatch = useRouteMatch("/");
@@ -116,6 +126,12 @@ function Header(){
     const inputAnimation = useAnimation();
     const navAnimation = useAnimation();
     const {scrollY} = useScroll();
+    const { register,handleSubmit } = useForm<IForm>();
+    let history = useHistory();
+    const onValid = (data:IForm)=>{
+        console.log('서치입력',data.keyword);
+        history.push(`/search?keyword=${data.keyword}`)
+    }
     useEffect(()=>{
         scrollY.onChange(()=>{
         if(scrollY.get()>80){
@@ -161,17 +177,22 @@ function Header(){
             </Col>
             <Col>
                 <Search>
+                    
                     <motion.svg 
                     onClick={toggleSearch}
                     animate={{x:searchOpen?-180:0}}
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
                     </motion.svg>
-                    <Input 
-                    initial={{scaleX:0}}
-                    animate={inputAnimation}
-                    //animate={{scaleX: searchOpen?1:0}}
-                    placeholder="Search for movie or tv show..."/>
+                    <form onSubmit={handleSubmit(onValid)}>
+                        <Input 
+                        {...register("keyword",{required:true, minLength:2})}
+                        initial={{scaleX:0}}
+                        animate={inputAnimation}
+                        //animate={{scaleX: searchOpen?1:0}}
+                        placeholder="Search for movie or tv show..."/>
+                    </form>
+                    
                 </Search>
             </Col>
         </Nav>

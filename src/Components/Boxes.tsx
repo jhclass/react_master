@@ -6,9 +6,9 @@ import { makeImagePath } from '../Utils';
 import { Tween } from 'jquery';
 import { useHistory, useRouteMatch } from 'react-router';
 
-const Box = styled(motion.div)<{bgImage:string}>`
+const Box = styled(motion.div)<{bgimage:string}>`
 
-background-image: url(${props=>props.bgImage});
+background-image: url(${props=>props.bgimage});
 background-size:cover;
 height:250px;
 color:black;
@@ -69,7 +69,7 @@ function Boxes ({id,title,description,index,imgPath}:iMovieImages) {
     return (
         <Box
         layoutId={id+""}
-        bgImage={makeImagePath(imgPath||"","w500")}
+        bgimage={makeImagePath(imgPath||"","w500")}
         variants={boxVariants}
         initial="normal"
         whileHover="hover"
