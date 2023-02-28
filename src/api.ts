@@ -51,6 +51,9 @@ export interface ISearch {
     media_type:string,
     vote_average:number,
     vote_count:number,
+    name:string,
+    backdrop_path:string,
+    poster_path:string,
 }
 export interface ISearchList {
     results:ISearch[];
