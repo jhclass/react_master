@@ -114,7 +114,7 @@ function Tv() {
     console.log('모니터 회전여부',window.matchMedia('(orientation: landscape)').matches)
 
     const history = useHistory();
-    const onOverlayClick = () => history.push('/');
+    const onOverlayClick = () => history.push('/tv');
     return <Wrapper>{list.isLoading?
         (
         <Loader>Loading...</Loader>
