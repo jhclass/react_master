@@ -77,7 +77,7 @@ function Search() {
     const {refetch,data,isLoading} = useQuery<ISearchList>(['searchData','nowLoading','nowFetching'],()=>getSearchData(`${keyword}`)); 
     console.log(data);
     //movie
-    const movieData = data?.results.filter(movie=>movie.media_type === "movie");
+    const movieData = data?.results.filter(movie=>movie.media_type === "movie" && movie.backdrop_path!=null);
     console.log('무비만',movieData);
     //tv
 
@@ -123,7 +123,7 @@ function Search() {
                  */}
                     <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
                         <Row initial={{ x: width + 10 }} animate={{ x: 0 }} exit={{ x: -width - 10 }} transition={{type:"tween",duration:1}} key={index}>
-                            {movieData?.slice(offset*index,offset*index+offset).map((datas,i)=><Boxes id={datas.id} title={datas.name} description={datas.overview} index={i} imgPath={datas.backdrop_path} key={i} category="search" keyword={keyword!}/>)}
+                            {movieData?.slice(offset*index,offset*index+offset).map((datas,i)=><Boxes id={datas.id} title={datas.title} description={datas.overview} index={i} imgPath={datas.backdrop_path} key={i} category="search" keyword={keyword!}/>)}
                         </Row>
                     </AnimatePresence>
                 </Slider>
