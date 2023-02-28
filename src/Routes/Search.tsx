@@ -14,6 +14,12 @@ padding-top:100px;
     font-size:24px;
     font-weight:bold;
 `;
+const NoSearch = styled.div`
+    padding-top:100px;
+    font-size:24px;
+    text-align:center;
+    font-weight:bold;
+`;
 const TextRedColor = styled.span`
     color:${props=>props.theme.red}
 `;
@@ -67,7 +73,7 @@ function Search() {
     const keyword = search.get("keyword");
     console.log('키워드만',keyword);
     const history = useHistory();
-    const onOverlayClick = () => history.push('/tv');
+    const onOverlayClick = () => history.push(`/search?keyword=${keyword}`);
     const {refetch,data,isLoading} = useQuery<ISearchList>(['searchData','nowLoading','nowFetching'],()=>getSearchData(`${keyword}`)); 
     console.log(data);
     //movie
@@ -88,7 +94,9 @@ function Search() {
     const toggleLeaving = ()=> setLeaving((prev)=>!prev);
    
     const offset = 6;
-    const bigMovieMatch = useRouteMatch<{tvId:string}>(`/tv/:tvId`);
+    const bigMovieMatch = useRouteMatch<{tvId:string}>(`/search/:tvId`);
+    
+    console.log('빅매치',bigMovieMatch)
     const increaseIndex = ()=> {
         if (leaving) return;
         toggleLeaving();
@@ -98,10 +106,11 @@ function Search() {
     };
     
     const clickMovie = bigMovieMatch?.params.tvId && 
-    data?.results.find((tv)=>tv.id+""===bigMovieMatch.params.tvId);
+    movieData?.find((tv)=>tv.id+""===bigMovieMatch.params.tvId);
+    console.log('클릭무비',clickMovie);
    
-    return (
-        <SearchWrap >
+    return keyword!=null?(
+        <SearchWrap>
             <h2><TextRedColor>{keyword}</TextRedColor> 에 대한 검색결과가 <TextRedColor>{data?.results.length}</TextRedColor> 건 조회되었습니다.</h2>
             <div>
                 
@@ -114,7 +123,7 @@ function Search() {
                  */}
                     <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
                         <Row initial={{ x: width + 10 }} animate={{ x: 0 }} exit={{ x: -width - 10 }} transition={{type:"tween",duration:1}} key={index}>
-                            {data?.results.slice(offset*index,offset*index+offset).map((datas,i)=><Boxes id={datas.id} title={datas.name} description={datas.overview} index={i} imgPath={datas.backdrop_path} key={i} category="tv"/>)}
+                            {movieData?.slice(offset*index,offset*index+offset).map((datas,i)=><Boxes id={datas.id} title={datas.name} description={datas.overview} index={i} imgPath={datas.backdrop_path} key={i} category="search" keyword={keyword!}/>)}
                         </Row>
                     </AnimatePresence>
                 </Slider>
@@ -124,7 +133,7 @@ function Search() {
                     <Overlay onClick={onOverlayClick} animate={{opacity:1}} exit={{opacity:0}}></Overlay>
                     <BigMovie layoutId={bigMovieMatch.params.tvId} style={{top:scrollY.get()+50}}>
                     {clickMovie&&<>
-                        <h2>{clickMovie.name}</h2>
+                        <h2>{clickMovie.title}</h2>
                         <div><img src={`https://image.tmdb.org/t/p/original${clickMovie.poster_path}`}/></div>
                         {/**https://image.tmdb.org/t/p/${format?format:"original"}/${id}`; */}
                         <p>{clickMovie.overview}</p>
@@ -142,6 +151,6 @@ function Search() {
             </div>
         </SearchWrap>
 
-    );
+    ):<div><NoSearch>검색내용이 없습니다. 우측상단의 검색버튼을 이용해주세요:)</NoSearch></div>;
 }
 export default Search; 

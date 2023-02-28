@@ -57,8 +57,9 @@ interface iMovieImages {
     index:number,
     imgPath:string,
     category:string,
+    keyword?:string,
 }
-function Boxes ({id,title,description,index,imgPath,category}:iMovieImages) {
+function Boxes ({id,title,description,index,imgPath,category,keyword}:iMovieImages) {
 
    const {data,isLoading} = useQuery<IMovieList>(['images','checkLoading'],getMoviesList);
    const history = useHistory();
@@ -67,7 +68,7 @@ function Boxes ({id,title,description,index,imgPath,category}:iMovieImages) {
    console.log('라우터매치',bigMovieMatch);
    const onBoxClicked = (playId:number)=>{
     // if (bigMovieMatch=="/movies/:movieId"){
-        history.push(`/${category}/${playId}`);
+        history.push(category!='search'?`/${category}/${playId}`:`${category}/${playId}?keyword=${keyword}`);
     // }
     
    }

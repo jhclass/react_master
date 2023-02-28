@@ -54,6 +54,7 @@ export interface ISearch {
     name:string,
     backdrop_path:string,
     poster_path:string,
+    title:string,
 }
 export interface ISearchList {
     results:ISearch[];

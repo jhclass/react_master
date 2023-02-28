@@ -89,9 +89,9 @@ const Input = styled(motion.input)`
     font-size:14px;
     color:${props=>props.theme.black.veryDark};
     transform-origin: right center;
-    background-color:rgba(255,255,255,0.5);
+    background-color:rgba(255,255,255,0.8);
     padding:10px;
-    border:1px solid rgba(255,255,255,0.8);
+    border:1px solid rgba(255,255,255,0.3);
     
 `;
 
