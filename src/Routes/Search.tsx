@@ -1,4 +1,4 @@
-import { react } from "@babel/types";
+import React,{useEffect} from 'react';
 import { useLocation } from "react-router";
 import {useQuery} from 'react-query';
 import {getSearchData, ISearchList} from '../api';
@@ -21,8 +21,13 @@ function Search() {
     const search = new URLSearchParams(location.search);
     const keyword = search.get("keyword");
     console.log('키워드만',keyword);
-    const {data,isLoading} = useQuery<ISearchList>(['searchData','nowLoading'],()=>getSearchData(`${keyword}`)); 
+  
+    const {refetch,data,isLoading} = useQuery<ISearchList>(['searchData','nowLoading','nowFetching'],()=>getSearchData(`${keyword}`)); 
     console.log(data);
+    useEffect(()=>{
+        refetch();
+    },[keyword]);
+  
     return (
         <SearchWrap >
             <h2><TextRedColor>{keyword}</TextRedColor> 에 대한 검색결과가 <TextRedColor>{data?.results.length}</TextRedColor> 건 조회되었습니다.</h2>
