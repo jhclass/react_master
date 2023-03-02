@@ -7,6 +7,11 @@ import { makeImagePath } from '../Utils';
 import {motion,AnimatePresence,useScroll} from 'framer-motion';
 import useWindowDimensions from '../useWindowDimensions';
 import Boxes from '../Components/Boxes'
+import { inheritTrailingComments } from '@babel/types';
+
+
+
+
 const Wrapper = styled.div`
     background-color: black;
 `;
@@ -82,8 +87,27 @@ padding:0 0 30px 60px;
 font-size:30px;
 font-weight:bold;
 `;
+const SliderNextBtn = styled(motion.div)`
+width:50px;
+height:50px;
+background:Red;
+position:absolute;
+top:0;
+right:30px;
+border-radius:100%;
+background:rgba(0,0,0,0.5);
+cursor:pointer;
+    svg {width:30%; position:absolute; right: 0; left:0; top:0; bottom:0; margin:auto; fill:rgba(255,255,255,0.8);}
+    
+`;
 
-console.log(window.innerWidth+100);
+//console.log(window.innerWidth+100);
+
+const SliderBtnVariants = {
+    initial: {fillOpacity:0.5},
+    hover:{fillOpacity:1},
+    
+}; 
 
 
 
@@ -94,6 +118,7 @@ function Home() {
     const list = useQuery<IMovieList>('list',getMoviesList);
     const [index,setIndex] = useState(0);
     const [leaving,setLeaving] = useState(false);
+    const [Arrows,setArrows] = useState(false);
     const bigMovieMatch = useRouteMatch<{movieId:string}>("/movies/:movieId");
     
     const clickMovie = bigMovieMatch?.params.movieId && 
@@ -102,13 +127,15 @@ function Home() {
     console.log('aaaa',bigMovieMatch);
     const offset = 6;
     const increaseIndex = ()=> {
+        setArrows(arrow=>arrow=true);
         if (leaving) return;
         toggleLeaving();
         const totalMovie = list.data?.results.length;
         const maxIndex = Math.ceil(totalMovie!/offset) -1;
         setIndex(prev=>prev === maxIndex ? 0 : prev+1);
+        console.log('Arrows',Arrows);
     };
-    //console.log(scrollY);
+    
     const toggleLeaving = ()=> setLeaving((prev)=>!prev);
     const width = useWindowDimensions();
     console.log('a',list.data?.results);
@@ -125,22 +152,29 @@ function Home() {
     (
     <>
         <Banner 
-        onClick={increaseIndex} 
-        bgPhoto={makeImagePath(list.data?.results[0].backdrop_path||"")}
-        
+            bgPhoto={makeImagePath(list.data?.results[0].backdrop_path||"")}
         >
             <Title>{list.data?.results[0].title}</Title>
             <Overview>{list.data?.results[0].overview}</Overview>
         </Banner>
         <Slider>
             <VideoTitle>시청중인 비디오</VideoTitle>
+            <AnimatePresence>
+                <SliderNextBtn onClick={increaseIndex} key={"next"} variants={SliderBtnVariants} initial="initial" whileHover="hover">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+                    <path d="M246.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L178.7 256 41.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/>
+                </svg>
+                </SliderNextBtn>
+                
+            </AnimatePresence>
+           
             {/*
              * initial={false} 안쓰면 animate가 되는 상태로 시작한다. 
              * onExitComplete 는 exit 중인 모든 노드들이 애니메이션을 끝내면 실행되게 해줍니다. 
              * 
              */}
             <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
-                <Row initial={{ x: width + 10 }} animate={{ x: 0 }} exit={{ x: -width - 10 }} transition={{type:"tween",duration:1}} key={index}>
+                <Row initial={{ x: +width + 10 }} animate={{ zIndex:99999, x: 0 }} exit={{ x: -width - 10 }} transition={{type:"tween",duration:1}} key={index}>
                     {list.data?.results.slice(offset*index,offset*index+offset).map((datas,i)=><Boxes id={datas.id} title={datas.title} description={datas.overview} index={i} imgPath={datas.backdrop_path} key={i} category="movies"/>)}
                 </Row>
             </AnimatePresence>
